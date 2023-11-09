@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding-top: 30px;
+      min-height: 70px;
+      border-bottom: #bbb 1px solid;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: #fff;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 18px;
+    }
+    ul li a {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+<h1>Список пользователей</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Работа с профилем</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.username}"></td>
+    <td th:text="${user.firstname}"></td>
+    <td th:text="${user.lastname}"></td>
+    <td>
+      <a th:href="@{/users/view/{id}(id=${user.id})}">Просмотреть</a> |
+      <a th:href="@{/users/edit/{id}(id=${user.id})}">Редактировать</a> |
+      <a th:href="@{/users/delete/{id}(id=${user.id})}">Деактивация</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a href="/users/add">Добавить нового пользователя</a>
+</body>
+</html>

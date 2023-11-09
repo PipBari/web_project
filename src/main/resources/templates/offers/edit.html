@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Offer</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>Edit Offer</h1>
+
+  <form th:action="@{/offers/{id}/update(id=${offer.id})}" th:object="${offer}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    Description: <input type="text" th:field="*{description}" /><br>
+    Price: <input type="number" th:field="*{price}" /><br>
+    Model:
+    <select th:field="*{model.id}">
+      <option value="">Choose...</option>
+      <option th:each="model : ${allModels}"
+              th:value="${model.id}"
+              th:selected="${model.id.equals(offer.model.id)}"
+              th:text="${model.name}">
+      </option>
+    </select><br>
+    User:
+    <select th:field="*{user.id}">
+      <option value="">Choose...</option>
+      <option th:each="user : ${allUsers}"
+              th:value="${user.id}"
+              th:selected="${user.id.equals(offer.user.id)}"
+              th:text="${user.username}">
+      </option>
+    </select><br>
+    <input type="submit" value="Update">
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Offer Details</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>Описание объявления</h1>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title" th:text="${offer.model.name}">Модель</h5>
+      <h6 class="card-subtitle mb-2 text-muted" th:text="${offer.price}">Стоимость</h6>
+      <p class="card-text" th:text="${offer.description}">Описание</p>
+      <p class="card-text"><strong>Engine:</strong> <span th:text="${offer.engine}">Engine</span></p>
+      <p class="card-text"><strong>Mileage:</strong> <span th:text="${offer.mileage}">Mileage</span></p>
+      <p class="card-text"><strong>Transmission:</strong> <span th:text="${offer.transmission}">Transmission</span></p>
+      <p class="card-text"><strong>Seller:</strong> <span th:text="${offer.user.username}">Username</span></p>
+
+      <div th:if="${offer.imageUrl}">
+        <img th:src="${offer.imageUrl}" alt="Car Image" class="img-fluid"/>
+      </div>
+      <div th:if="${offer.imageUrl == null}">No image available</div>
+
+      <a th:href="@{/offers}" class="card-link">Вернуться к списку</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

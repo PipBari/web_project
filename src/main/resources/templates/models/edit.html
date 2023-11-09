@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактирование модели</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding-top: 30px;
+      min-height: 70px;
+      border-bottom: #bbb 1px solid;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Редактирование модели</h1>
+  <form th:action="@{/models/{id}/update(id=${model.id})}" th:object="${model}" method="post">
+    <label for="name">Название:</label>
+    <input type="text" id="name" th:field="*{name}" required>
+
+    <label for="category">Категория:</label>
+    <select id="category" th:field="*{category}" required>
+      <option th:each="category : ${categories}" th:value="${category.name()}" th:text="${category}" th:selected="${category.name() == model.category}"></option>
+    </select>
+
+    <label for="imageUrl">URL изображения:</label>
+    <input type="text" id="imageUrl" th:field="*{imageUrl}">
+
+    <label for="startYear">Год начала:</label>
+    <input type="number" id="startYear" th:field="*{startYear}" required>
+
+    <label for="endYear">Год окончания:</label>
+    <input type="number" id="endYear" th:field="*{endYear}">
+
+    <label for="brand">Бренд:</label>
+    <select id="brand" th:field="*{brand.id}" required>
+      <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}" th:selected="${brand.id.equals(model.brand.id)}"></option>
+    </select>
+
+    <input type="submit" value="Сохранить изменения">
+  </form>
+  <a href="/models">Отмена</a>
+</div>
+</body>
+</html>

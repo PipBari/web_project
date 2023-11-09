@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Просмотр модели</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding-top: 30px;
+      min-height: 70px;
+      border-bottom: #bbb 1px solid;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+    .brand-details span {
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<h1>Просмотр модели</h1>
+<div>
+  <p>ID: <span th:text="${model.id}"></span></p>
+  <p>Название: <span th:text="${model.name}"></span></p>
+  <p>Категория: <span th:text="${model.category}"></span></p>
+  <p>Изображение: <img th:src="${model.imageUrl}" /></p>
+  <p>Год начала: <span th:text="${model.startYear}"></span></p>
+  <p>Год окончания: <span th:text="${model.endYear}"></span></p>
+  <p>Бренд: <span th:text="${model.brand.name}"></span></p>
+
+  <!-- Дополнительные детали модели -->
+
+</div>
+<a href="/models">Назад к списку</a>
+</body>
+</html>

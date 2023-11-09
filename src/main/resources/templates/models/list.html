@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Список моделей</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Список моделей</h1>
+  <div th:if="${not #lists.isEmpty(models)}">
+    <ul class="list-unstyled">
+      <li th:each="model : ${models}" class="mb-2">
+        <span th:text="${model.name}" class="mr-2">Название модели</span>
+        <a th:href="@{/models/{id}(id=${model.id})}" class="btn btn-info btn-sm mr-1">Посмотреть</a>
+        <a th:href="@{/models/{id}/edit(id=${model.id})}" class="btn btn-primary btn-sm mr-1">Редактировать</a>
+        <form th:action="@{/models/{id}/delete(id=${model.id})}" method="post" style="display: inline;">
+          <input type="submit" value="Удалить" class="btn btn-danger btn-sm">
+        </form>
+      </li>
+    </ul>
+  </div>
+  <div th:if="${#lists.isEmpty(models)}">
+    <p>Список моделей пуст.</p>
+  </div>
+  <a href="/models/add" class="btn btn-success">Добавить новую модель</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

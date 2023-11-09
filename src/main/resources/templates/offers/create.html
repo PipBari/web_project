@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Include head contents like meta tags, title, and CSS links if needed -->
+</head>
+<body>
+<h1>Create New Offer</h1>
+<form th:action="@{/offers}" th:object="${offer}" method="post">
+  Description: <input type="text" th:field="*{description}" /><br>
+  Price: <input type="number" th:field="*{price}" /><br>
+
+  Mileage: <input type="number" th:field="*{mileage}" /><br>
+
+  Image URL: <input type="text" th:field="*{imageUrl}" /><br>
+
+  Engine:
+  <select th:field="*{engine}">
+    <option value="">Choose...</option>
+    <option th:each="engine : ${T(com.example.springdatabasicdemo.models.enums.Engine).values()}"
+            th:value="${engine}"
+            th:text="${engine.name()}"></option>
+  </select><br>
+
+  Transmission:
+  <select th:field="*{transmission}">
+    <option value="">Choose...</option>
+    <option th:each="transmission : ${T(com.example.springdatabasicdemo.models.enums.Transmission).values()}"
+            th:value="${transmission}"
+            th:text="${transmission.name()}"></option>
+  </select><br>
+
+  Model:
+  <select th:field="*{model.id}">
+    <option value="">Choose...</option>
+    <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}"></option>
+  </select><br>
+
+  User:
+  <select th:field="*{user.id}">
+    <option value="">Choose...</option>
+    <option th:each="user : ${allUsers}" th:value="${user.id}" th:text="${user.username}"></option>
+  </select><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+<!-- Your scripts included here -->
+</body>
+</html>

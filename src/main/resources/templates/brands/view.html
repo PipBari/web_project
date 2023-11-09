@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Просмотр категории</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding-top: 30px;
+      min-height: 70px;
+      border-bottom: #bbb 1px solid;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+    .brand-details {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .brand-details span {
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<header class="container">
+  <div id="branding">
+    <h1>Просмотр категории</h1>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/brands">Назад к списку</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="container">
+  <div class="brand-details">
+    <span>ID: <span th:text="${brand.id}">ID категории</span></span>
+    <span>Название: <span th:text="${brand.name}">Название категории</span></span>
+  </div>
+</div>
+</body>
+</html>

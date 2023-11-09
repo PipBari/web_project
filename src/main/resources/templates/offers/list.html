@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Offers List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>Объявления</h1>
+
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th>Описание</th>
+      <th>Стоимость</th>
+      <th>Пробег</th>
+      <th>Изображение</th>
+      <th>Двигатель</th>
+      <th>Трансмиссия</th>
+      <th>username</th>
+      <th>Модель</th>
+      <th>Взаимодействие с объявлением</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="offer : ${offers}">
+      <td th:text="${offer.description}">Description</td>
+      <td th:text="${offer.price}">Price</td>
+      <td th:text="${offer.mileage}">Mileage</td>
+      <td>
+        <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Image" style="height: 50px;">
+        <span th:if="${offer.imageUrl == null}">No Image</span>
+      </td>
+      <td th:text="${offer.engine}">Engine</td>
+      <td th:text="${offer.transmission}">Transmission</td>
+      <td th:text="${offer.user.username}">username</td>
+      <td th:text="${offer.model.name}">Model Name</td>
+      <td>
+        <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Просмотреть</a>
+        <a th:href="@{/offers/{id}/edit(id=${offer.id})}" class="btn btn-primary">Редактировать</a>
+        <a th:href="@{/offers/{id}/delete(id=${offer.id})}" class="btn btn-danger">Удалить</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
