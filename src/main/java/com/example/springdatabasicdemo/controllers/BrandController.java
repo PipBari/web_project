@@ -2,9 +2,11 @@ package com.example.springdatabasicdemo.controllers;
 
 import com.example.springdatabasicdemo.dtos.BrandDto;
 import com.example.springdatabasicdemo.services.BrandService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -13,9 +15,10 @@ import java.util.UUID;
 @RequestMapping("/brands")
 public class BrandController {
 
-    private final BrandService brandService;
+    private BrandService brandService;
 
-    public BrandController(BrandService brandService) {
+    @Autowired
+    public void SetBrandController(BrandService brandService) {
         this.brandService = brandService;
     }
 
@@ -32,7 +35,10 @@ public class BrandController {
     }
 
     @PostMapping
-    public String addBrand(@ModelAttribute BrandDto brandDto) {
+    public String addBrand(@ModelAttribute("brand") @Valid BrandDto brandDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "brands/add";
+        }
         brandService.add(brandDto);
         return "redirect:/brands";
     }
@@ -59,10 +65,12 @@ public class BrandController {
         return "brands/edit";
     }
     @PostMapping("/{id}/update")
-    public String updateBrand(@PathVariable UUID id, @ModelAttribute BrandDto brandDto) {
+    public String updateBrand(@PathVariable UUID id, @Valid @ModelAttribute BrandDto brandDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "brands/edit";
+        }
         brandService.update(id, brandDto);
         return "redirect:/brands";
     }
-
 }
 

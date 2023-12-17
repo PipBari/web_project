@@ -2,6 +2,10 @@ package com.example.springdatabasicdemo.dtos;
 
 import com.example.springdatabasicdemo.models.enums.Engine;
 import com.example.springdatabasicdemo.models.enums.Transmission;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,6 +16,8 @@ public class OfferDto {
     private Engine engine;
     private String imageUrl;
     private int mileage;
+    @NotNull(message = "Цена не может быть пустой")
+    @Min(value = 1)
     private int price;
     private Transmission transmission;
     private LocalDate year;
@@ -51,4 +57,20 @@ public class OfferDto {
     public void setModel(ModelDto model){this.model=model;}
     public UserDto getUser(){return user;}
     public void setUser(UserDto user){this.user=user;}
+    @Override
+    public String toString() {
+        return "OfferDto{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", engine=" + engine +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", mileage=" + mileage +
+                ", price=" + price +
+                ", transmission=" + transmission +
+                ", year=" + year +
+                ", modified=" + modified +
+                ", model=" + model +
+                ", user=" + user +
+                '}';
+    }
 }

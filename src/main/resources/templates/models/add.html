@@ -38,52 +38,69 @@
       margin-bottom: 5px;
     }
     input[type="text"],
-    input[type="submit"] {
+    input[type="number"],
+    input[type="submit"],
+    select {
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
+    }
+    .error {
+      color: red;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <form action="#" th:action="@{/models}" th:object="${model}" method="post">
+  <form th:action="@{/models}" th:object="${model}" method="post">
     <div>
       <label for="name">Name:</label>
       <input type="text" id="name" th:field="*{name}" />
+      <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     </div>
+
     <div>
       <label for="category">Category:</label>
       <select id="category" th:field="*{category}">
-        <option value="" th:remove="all">Select Category</option>
+        <option value="">Select Category</option>
         <option th:each="category : ${categories}"
                 th:value="${category.name()}"
                 th:text="${category.name()}">
         </option>
       </select>
+      <div class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
     </div>
+
     <div>
       <label for="brand">Brand:</label>
       <select id="brand" th:field="*{brand.id}">
-        <option value="" th:remove="all">Select Brand</option>
+        <option value="">Select Brand</option>
         <option th:each="brand : ${brands}"
                 th:value="${brand.id}"
                 th:text="${brand.name}">
         </option>
       </select>
+      <div class="error" th:if="${#fields.hasErrors('brand.id')}" th:errors="*{brand.id}"></div>
     </div>
+
     <div>
       <label for="imageUrl">Image URL:</label>
       <input type="text" id="imageUrl" th:field="*{imageUrl}" />
+      <div class="error" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
     </div>
+
     <div>
       <label for="startYear">Start Year:</label>
       <input type="number" id="startYear" th:field="*{startYear}" />
+      <div class="error" th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}"></div>
     </div>
+
     <div>
       <label for="endYear">End Year:</label>
       <input type="number" id="endYear" th:field="*{endYear}" />
+      <div class="error" th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}"></div>
     </div>
+
     <div>
       <button type="submit">Submit</button>
     </div>

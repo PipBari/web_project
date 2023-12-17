@@ -1,8 +1,8 @@
 package com.example.springdatabasicdemo.models.enums;
 
 public enum Role {
-    User(0),
-    Admin(1);
+    USER(0),
+    ADMIN(1);
 
     private int num;
     Role(int num){

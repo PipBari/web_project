@@ -1,31 +1,41 @@
 package com.example.springdatabasicdemo.controllers;
 
-import com.example.springdatabasicdemo.dtos.BrandDto;
 import com.example.springdatabasicdemo.dtos.ModelDto;
 import com.example.springdatabasicdemo.models.enums.Category;
 import com.example.springdatabasicdemo.services.BrandService;
 import com.example.springdatabasicdemo.services.ModelService;
+import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
 @RequestMapping("/models")
 public class ModelController {
 
-    private final ModelService modelService;
+    private ModelService modelService;
     private BrandService brandService;
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
-    public ModelController(ModelService modelService, BrandService brandService) {
+    @Autowired
+    public void SetModelController(ModelService modelService, BrandService brandService) {
         this.modelService = modelService;
         this.brandService = brandService;
     }
 
     @GetMapping
-    public String listModels(Model model) {
+    public String listModels(Principal principal, Model model) {
+        LOG.log(Level.INFO, "Show all offers " + principal.getName());
+        model.addAttribute("offersInfos", modelService.getAll());
         model.addAttribute("models", modelService.getAll());
         return "models/list";
     }
@@ -34,12 +44,15 @@ public class ModelController {
     public String addModelForm(Model model) {
         model.addAttribute("model", new ModelDto());
         model.addAttribute("categories", Category.values());
-        model.addAttribute("brands", brandService.getAll()); // Добавляем список брендов
+        model.addAttribute("brands", brandService.getAll());
         return "models/add";
     }
 
     @PostMapping
-    public String addModel(@ModelAttribute ModelDto modelDto) {
+    public String addModel(@ModelAttribute("model") @Valid ModelDto modelDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "models/add";
+        }
         modelService.add(modelDto);
         return "redirect:/models";
     }

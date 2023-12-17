@@ -61,13 +61,12 @@
     <td th:text="${user.firstname}"></td>
     <td th:text="${user.lastname}"></td>
     <td>
-      <a th:href="@{/users/view/{id}(id=${user.id})}">Просмотреть</a> |
-      <a th:href="@{/users/edit/{id}(id=${user.id})}">Редактировать</a> |
-      <a th:href="@{/users/delete/{id}(id=${user.id})}">Деактивация</a>
+      <a th:href="@{/user/view/{id}(id=${user.id})}">Просмотреть</a> |
+      <a th:href="@{/user/edit/{id}(id=${user.id})}">Редактировать</a> |
+      <a th:href="@{/user/delete/{id}(id=${user.id})}">Деактивация</a>
     </td>
   </tr>
   </tbody>
 </table>
-<a href="/users/add">Добавить нового пользователя</a>
 </body>
 </html>

@@ -31,10 +31,11 @@ public class UserServiceImpl implements UserService<Integer>{
         this.offerRepository=offerRepository;
         this.modelMapper=modelMappe;
     }
-
     @Override
     public List<UserDto> getAll() {
-        return userRepository.findAll().stream().map((c) -> modelMapper.map(c, UserDto.class)).collect(Collectors.toList());
+        return userRepository.findAll().stream()
+                .map(c -> modelMapper.map(c, UserDto.class))
+                .collect(Collectors.toList());
     }
     @Override
     public Optional<UserDto> findUser(UUID id){
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService<Integer>{
         user.setCreated(LocalDate.now());
         user.setIsActive(true);
         if (userDto.getUserRoleDto() == null || userDto.getUserRoleDto().getRole() == null) {
-            UserRole userRole = userRoleRepository.findByRole(Role.User)
+            UserRole userRole = userRoleRepository.findByRole(Role.USER)
                     .orElseThrow(() -> new IllegalArgumentException("Default role not found"));
             user.setUserRole(userRole);
         } else {

@@ -2,9 +2,11 @@ package com.example.springdatabasicdemo.controllers;
 
 import com.example.springdatabasicdemo.dtos.UserDto;
 import com.example.springdatabasicdemo.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -13,22 +15,25 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public void SetUserController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public String listUsers(Model model) {
         model.addAttribute("users", userService.getAll());
         return "users/list";
     }
 
     @GetMapping("/add")
-    public String addUserForm(Model model) {
-        model.addAttribute("user", new UserDto());
+    public String addUserForm(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+        if (result.hasErrors()){
+            return "users/add";
+        }
+        userService.add(userDto);
         return "users/add";
     }
 
@@ -51,7 +56,7 @@ public class UserController {
         UserDto userDto = (UserDto) userService.findUser(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         model.addAttribute("user", userDto);
-        return "users/view"; // предполагается, что у вас есть шаблон view.html в директории /resources/templates/users/
+        return "users/view";
     }
 
 

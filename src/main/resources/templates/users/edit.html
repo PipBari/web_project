@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Edit User</h1>
-<form action="#" th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" method="post">
+<form action="#" th:action="@{/user/{id}(id=${user.id})}" th:object="${user}" method="post">
   <input type="hidden" th:field="*{id}"/>
   <label for="username">Username:</label>
   <input type="text" id="username" name="username" th:field="*{username}"/><br/>
@@ -18,6 +18,6 @@
 
   <input type="submit" value="Save Changes"/>
 </form>
-<a href="/users">Back to List</a>
+<a href="/user">Back to List</a>
 </body>
 </html>

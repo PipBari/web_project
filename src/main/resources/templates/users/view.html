@@ -4,6 +4,7 @@
   <title>User Details</title>
 </head>
 <body>
+
 <h1>Просмотр пользователя</h1>
 <div>
   <h2 th:text="${user.username}">Username</h2>
@@ -17,7 +18,7 @@
   </div>
   <p th:unless="${user.imageUrl}">No image available.</p>
 
-  <a href="/users">Вернуться к списку</a>
+  <a href="/user">Вернуться к списку</a>
 </div>
 </body>
 </html>

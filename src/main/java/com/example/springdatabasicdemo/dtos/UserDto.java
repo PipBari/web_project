@@ -1,13 +1,24 @@
 package com.example.springdatabasicdemo.dtos;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class UserDto {
     private UUID id;
+    @NotNull(message = "Ник не может быть пустым")
+    @Size(min = 2, max = 20, message = "Должно быть от 4 до 20 символов")
     private String username;
+    @NotNull(message = "Пароль не может быть пустым")
+    @Size(min = 2, max = 20, message = "Должно быть от 6 до 20 символов")
     private String password;
+    @NotNull(message = "Имя не может быть пустым")
+    @Size(min = 2, max = 20, message = "Должно быть от 2 до 20 символов")
     private String firstname;
+    @NotNull(message = "Фамилия не может быть пустым")
+    @Size(min = 2, max = 20, message = "Должно быть от 2 до 20 символов")
     private String lastname;
     private Boolean isActive;
     private String imageUrl;

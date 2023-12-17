@@ -7,6 +7,8 @@ import com.example.springdatabasicdemo.models.enums.Role;
 import com.example.springdatabasicdemo.models.enums.Transmission;
 import com.example.springdatabasicdemo.services.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +18,7 @@ public class DataInitializer implements CommandLineRunner {
     private final OfferService offerService;
     private final UserRoleService userRoleService;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public DataInitializer(BrandService brandService, ModelService modelService, OfferService offerService, UserRoleService userRoleService, UserService userService){
         this.brandService=brandService;
@@ -46,14 +49,14 @@ public class DataInitializer implements CommandLineRunner {
         ModelDto m3 = new ModelDto(null, "КамАЗ-63968 Тайфун-К", Category.Truck, "https://upload.wikimedia.org/wikipedia/commons/9/9d/April_9th_rehearsal_in_Alabino_of_2014_Victory_Day_Parade_%28558-17%29.jpg", 2011, 2023, bc3);
         ModelDto mc3 = modelService.add(m3);
         // Роли
-        UserRoleDto ur1 = new UserRoleDto(null, Role.User);
+        UserRoleDto ur1 = new UserRoleDto(null, Role.ADMIN);
         UserRoleDto urc1 = userRoleService.add(ur1);
-        UserRoleDto ur2 = new UserRoleDto(null, Role.Admin);
+        UserRoleDto ur2 = new UserRoleDto(null, Role.ADMIN);
         UserRoleDto urc2 = userRoleService.add(ur2);
         // Аккаунты
-        UserDto us1 = new UserDto(null, "Frede", "123", "Mishka", "Frede", true, "https://yt3.googleusercontent.com/NAadweMiZy6uxCXZPsYuRZtDAw3RP49MSO3ZD2D9vx93OMByPb4VQC_R7QH91PrVuPYzXiEru6A=s900-c-k-c0x00ffffff-no-rj", urc1);
+        UserDto us1 = new UserDto(null, "Frede", passwordEncoder.encode("123"), "Mishka", "Frede", true, "https://yt3.googleusercontent.com/NAadweMiZy6uxCXZPsYuRZtDAw3RP49MSO3ZD2D9vx93OMByPb4VQC_R7QH91PrVuPYzXiEru6A=s900-c-k-c0x00ffffff-no-rj", urc1);
         UserDto uss1 = userService.add(us1);
-        UserDto us2 = new UserDto(null, "Aboba", "1234", "Aboba", "Abobus", true, "", urc1);
+        UserDto us2 = new UserDto(null, "Aboba", passwordEncoder.encode("1234"), "Aboba", "Abobus", true, "", urc1);
         UserDto uss2 = userService.add(us2);
         // Объявления
         OfferDto o1 = new OfferDto(null, "", Engine.DIESEL, "", 20, 100000, Transmission.MANUAL, mc1, uss1);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Добавление категории</title>
@@ -57,9 +57,10 @@
     </nav>
 </header>
 <div class="container">
-    <form action="/brands" method="post">
+    <form action="/brands" method="post" th:object="${brand}">
         <label for="name">Название:</label>
-        <input type="text" id="name" name="name">
+        <input type="text" id="name" name="name" th:field="*{name}">
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка валидации</p>
         <input type="submit" value="Добавить">
     </form>
 </div>

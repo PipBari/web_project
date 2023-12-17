@@ -9,6 +9,8 @@ import com.example.springdatabasicdemo.repositories.OfferRepository;
 import com.example.springdatabasicdemo.repositories.UserRepository;
 import com.example.springdatabasicdemo.services.OfferService;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class OfferServiceImpl implements OfferService<Integer>{
     private final OfferRepository offerRepository;
     private final UserRepository userRepository;
@@ -48,6 +51,7 @@ public class OfferServiceImpl implements OfferService<Integer>{
         return modelMapper.map(savedOffer, OfferDto.class);
     }
     @Override
+    @Cacheable(value = "offers", key = "#offerDto.id")
     public OfferDto update(OfferDto offerDto) {
         if (offerDto.getId() == null) {
             throw new IllegalArgumentException("Offer ID cannot be null for update");
@@ -72,16 +76,19 @@ public class OfferServiceImpl implements OfferService<Integer>{
     }
 
     @Override
+    @Cacheable("offers")
     public List<OfferDto> getAll() {
         return offerRepository.findAll().stream().map((c) -> modelMapper.map(c, OfferDto.class)).collect(Collectors.toList());
     }
     @Override
+    @Cacheable(value = "offers", key = "#id")
     public Optional<OfferDto> findOffer(UUID id){
         return offerRepository.findById(id)
                 .map(offer -> modelMapper.map(offer, OfferDto.class));
     }
 
     @Override
+    @Cacheable(value = "offers", key = "#id.id")
     public OfferDto delete(OfferDto id){
         offerRepository.deleteById(id.getId());
         return id;
