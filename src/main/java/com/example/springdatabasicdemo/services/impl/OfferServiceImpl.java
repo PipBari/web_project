@@ -89,8 +89,8 @@ public class OfferServiceImpl implements OfferService<Integer>{
 
     @Override
     @Cacheable(value = "offers", key = "#id.id")
-    public OfferDto delete(OfferDto id){
-        offerRepository.deleteById(id.getId());
-        return id;
+    public OfferDto delete(UUID id) {
+        offerRepository.deleteById(id);
+        return null;
     }
 }

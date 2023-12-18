@@ -1,49 +1,61 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <!-- Include head contents like meta tags, title, and CSS links if needed -->
+  <meta charset="UTF-8">
+  <title>Create New Offer</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Create New Offer</h1>
-<form th:action="@{/offers}" th:object="${offer}" method="post">
-  Description: <input type="text" th:field="*{description}" /><br>
-  Price: <input type="number" th:field="*{price}" /><br>
 
-  Mileage: <input type="number" th:field="*{mileage}" /><br>
+<div class="container mt-5">
+  <sec:authorize access="isAuthenticated()">
+    <h1>Create New Offer</h1>
+    <form th:action="@{/offers}" th:object="${offer}" method="post">
+      Description: <input type="text" th:field="*{description}" class="form-control"/><br>
+      Price: <input type="number" th:field="*{price}" class="form-control"/><br>
+      Mileage: <input type="number" th:field="*{mileage}" class="form-control"/><br>
+      Image URL: <input type="text" th:field="*{imageUrl}" class="form-control"/><br>
 
-  Image URL: <input type="text" th:field="*{imageUrl}" /><br>
+      Engine:
+      <select th:field="*{engine}" class="form-control">
+        <option value="">Choose...</option>
+        <option th:each="engine : ${T(com.example.springdatabasicdemo.models.enums.Engine).values()}"
+                th:value="${engine}"
+                th:text="${engine}"></option>
+      </select><br>
 
-  Engine:
-  <select th:field="*{engine}">
-    <option value="">Choose...</option>
-    <option th:each="engine : ${T(com.example.springdatabasicdemo.models.enums.Engine).values()}"
-            th:value="${engine}"
-            th:text="${engine.name()}"></option>
-  </select><br>
+      Transmission:
+      <select th:field="*{transmission}" class="form-control">
+        <option value="">Choose...</option>
+        <option th:each="transmission : ${T(com.example.springdatabasicdemo.models.enums.Transmission).values()}"
+                th:value="${transmission}"
+                th:text="${transmission}"></option>
+      </select><br>
 
-  Transmission:
-  <select th:field="*{transmission}">
-    <option value="">Choose...</option>
-    <option th:each="transmission : ${T(com.example.springdatabasicdemo.models.enums.Transmission).values()}"
-            th:value="${transmission}"
-            th:text="${transmission.name()}"></option>
-  </select><br>
+      Model:
+      <select th:field="*{model.id}" class="form-control">
+        <option value="">Choose...</option>
+        <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}"></option>
+      </select><br>
 
-  Model:
-  <select th:field="*{model.id}">
-    <option value="">Choose...</option>
-    <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}"></option>
-  </select><br>
+      User:
+      <select th:field="*{user.id}" class="form-control">
+        <option value="">Choose...</option>
+        <option th:each="user : ${allUsers}" th:value="${user.id}" th:text="${user.username}"></option>
+      </select><br>
 
-  User:
-  <select th:field="*{user.id}">
-    <option value="">Choose...</option>
-    <option th:each="user : ${allUsers}" th:value="${user.id}" th:text="${user.username}"></option>
-  </select><br>
+      <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+  </sec:authorize>
 
-  <input type="submit" value="Submit">
-</form>
+  <sec:authorize access="!isAuthenticated()">
+    <p>You need to be logged in to create an offer.</p>
+  </sec:authorize>
+</div>
 
-<!-- Your scripts included here -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>

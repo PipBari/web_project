@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
   <title>Offers List</title>
@@ -10,6 +10,9 @@
 <div class="container mt-5">
   <h1>Объявления</h1>
   <a href="/models" class="btn btn-secondary mb-3">Перейти к списку моделей</a>
+  <sec:authorize access="isAuthenticated()">
+    <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
+  </sec:authorize>
 </div>
 
 <div class="container mt-5">
@@ -44,13 +47,17 @@
       <td th:text="${offer.model.name}">Model Name</td>
       <td>
         <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Просмотреть</a>
-        <a th:href="@{/offers/{id}/edit(id=${offer.id})}" class="btn btn-primary">Редактировать</a>
-        <a th:href="@{/offers/{id}/delete(id=${offer.id})}" class="btn btn-danger">Удалить</a>
+        <sec:authorize access="isAuthenticated()">
+          <a th:href="@{/offers/{id}/edit(id=${offer.id})}" class="btn btn-primary">Редактировать</a>
+          <form th:action="@{/offers/{id}/delete(id=${offer.id})}" method="get">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="btn btn-danger">Удалить</button>
+          </form>
+        </sec:authorize>
       </td>
     </tr>
     </tbody>
   </table>
-  <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

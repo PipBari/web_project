@@ -105,7 +105,7 @@ public class OfferController {
 
     @GetMapping("/delete/{id}")
     public String deleteOffer(@PathVariable UUID id) {
-        offerService.delete(new OfferDto(id, null, null, null, 0, 0, null, null, null));
-        return "redirect:/offers";
+        offerService.delete(id);
+        return "redirect:/";
     }
 }

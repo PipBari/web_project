@@ -15,5 +15,5 @@ public interface OfferService<ID>{
 
     Optional<OfferDto> findOffer(UUID id);
 
-    OfferDto delete(OfferDto id);
+    OfferDto delete(UUID id);
 }
