@@ -22,7 +22,7 @@ public class BrandController {
         this.brandService = brandService;
     }
 
-    @GetMapping
+    @GetMapping("list")
     public String listBrands(Model model) {
         model.addAttribute("brands", brandService.getAll());
         return "brands/list";
@@ -34,13 +34,13 @@ public class BrandController {
         return "brands/add";
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public String addBrand(@ModelAttribute("brand") @Valid BrandDto brandDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "brands/add";
         }
         brandService.add(brandDto);
-        return "redirect:/brands";
+        return "redirect:/brands/list";
     }
 
     @GetMapping("/{id}")
@@ -54,7 +54,7 @@ public class BrandController {
         BrandDto brandDto = new BrandDto();
         brandDto.setId(id);
         brandService.delete(brandDto);
-        return "redirect:/brands";
+        return "redirect:/brands/list";
     }
 
     @GetMapping("/{id}/edit")

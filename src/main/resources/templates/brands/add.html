@@ -57,7 +57,7 @@
     </nav>
 </header>
 <div class="container">
-    <form action="/brands" method="post" th:object="${brand}">
+    <form action="/brands/create" th:object="${brand}" method="post">
         <label for="name">Название:</label>
         <input type="text" id="name" name="name" th:field="*{name}">
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка валидации</p>

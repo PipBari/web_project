@@ -1,6 +1,7 @@
 package com.example.springdatabasicdemo.services.impl;
 
 import com.example.springdatabasicdemo.dtos.OfferDto;
+import com.example.springdatabasicdemo.dtos.UserDto;
 import com.example.springdatabasicdemo.models.Model;
 import com.example.springdatabasicdemo.models.Offer;
 import com.example.springdatabasicdemo.models.User;
@@ -110,4 +111,18 @@ public class OfferServiceImpl implements OfferService<Integer>{
         Set<UUID> viewedOffers = setOps.members("viewedOffers:" + userId);
         return new ArrayList<>(viewedOffers);
     }
+
+    @Override
+    @Cacheable("offerIds")
+    public List<UUID> getAllOfferIds() {
+        return offerRepository.findAll().stream()
+                .map(Offer::getId)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public Optional<UserDto> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> modelMapper.map(user, UserDto.class));
+    }
+
 }

@@ -48,7 +48,7 @@ public class ModelController {
         return "models/add";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public String addModel(@ModelAttribute("model") @Valid ModelDto modelDto, BindingResult result) {
         if (result.hasErrors()) {
             return "models/add";

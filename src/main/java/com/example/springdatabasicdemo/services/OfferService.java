@@ -1,6 +1,8 @@
 package com.example.springdatabasicdemo.services;
 
 import com.example.springdatabasicdemo.dtos.OfferDto;
+import com.example.springdatabasicdemo.dtos.UserDto;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +21,9 @@ public interface OfferService<ID>{
 
     void markOfferAsViewed(UUID offerId, String userId);
     List<UUID> getViewedOfferIdsByUser(String username);
+
+    @Cacheable("offerIds")
+    List<UUID> getAllOfferIds();
+
+    Optional<UserDto> findByUsername(String username);
 }

@@ -46,16 +46,16 @@
   <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
 </div>
 
-<div class="top-right-controls" th:if="${#authorization.expression('isAuthenticated()')}">
-  <a th:href="@{/users/view}" class="btn btn-secondary mb-3">
-    <span th:text="${#authentication.name}"></span>
+<div sec:authorize="isAuthenticated()" class="top-right-controls">
+  <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="btn btn-secondary mb-3">
+    <span th:text="${#authentication.name}">Профиль</span>
   </a>
   <a href="/logout" class="btn btn-danger mb-3">Выход</a>
 </div>
 
 <div>
   <a th:href="@{/offers/list}" class="btn btn-primary">Просмотр объявлений</a>
-  <a th:href="@{/users/list}" class="btn btn-primary">Список пользователей</a>
+  <a th:href="@{/adminboard}" class="btn btn-primary">Админ панель</a>
 </div>
 </body>
 </html>

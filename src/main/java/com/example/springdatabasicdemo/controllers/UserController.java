@@ -37,10 +37,13 @@ public class UserController {
         return "users/add";
     }
 
-    @PostMapping
-    public String createUser(@ModelAttribute UserDto userDto) {
+    @PostMapping("/create")
+    public String createUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "users/add";
+        }
         userService.add(userDto);
-        return "redirect:/users";
+        return "redirect:/users/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -59,6 +62,14 @@ public class UserController {
         return "users/view";
     }
 
+    @PostMapping("/add")
+    public String addUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "users/add";
+        }
+        userService.add(userDto);
+        return "redirect:/index";
+    }
 
     @PostMapping("/{id}")
     public String updateUser(@PathVariable UUID id, @ModelAttribute UserDto userDto) {
@@ -71,4 +82,13 @@ public class UserController {
         userService.deactivateAccount(id);
         return "redirect:/users";
     }
+
+    @GetMapping("/profile/{username}")
+    public String userProfile(@PathVariable String username, Model model) throws Throwable {
+        UserDto userDto = (UserDto) userService.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + username));
+        model.addAttribute("user", userDto);
+        return "users/view";
+    }
+
 }

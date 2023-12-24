@@ -67,13 +67,7 @@
       <div th:text="${offer.model.name}">Model Name</div>
       <div>
         <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Просмотреть</a>
-        <sec:authorize access="isAuthenticated()">
-          <a th:href="@{/offers/{id}/edit(id=${offer.id})}" class="btn btn-primary">Редактировать</a>
-          <form th:action="@{/offers/{id}/delete(id=${offer.id})}" method="get">
-            <input type="hidden" name="_method" value="delete" />
-            <button type="submit" class="btn btn-danger">Удалить</button>
-          </form>
-        </sec:authorize>
+        <span th:if="${#lists.contains(viewedOffers, offer.id)}" class="viewed-text">Объявление просмотрено</span>
       </div>
     </div>
   </div>

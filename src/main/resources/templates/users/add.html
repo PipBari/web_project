@@ -58,18 +58,18 @@
 <body>
 <div class="form-container">
   <h2>Регистрация пользователя</h2>
-  <form action="/user" method="post">
+  <form action="/users/create" method="post">
     <label for="username">Имя пользователя:</label>
     <input type="text" id="username" name="username" required minlength="4" maxlength="20">
 
     <label for="password">Пароль:</label>
     <input type="password" id="password" name="password" required minlength="6" maxlength="20">
 
-    <label for="firstname">Имя:</label>
-    <input type="text" id="firstname" name="firstname" required minlength="2" maxlength="20">
+    <label for="firstName">Имя:</label>
+    <input type="text" id="firstName" name="firstName" required minlength="2" maxlength="20">
 
-    <label for="lastname">Фамилия:</label>
-    <input type="text" id="lastname" name="lastname" required minlength="2" maxlength="20">
+    <label for="lastName">Фамилия:</label>
+    <input type="text" id="lastName" name="lastName" required minlength="2" maxlength="20">
 
     <input type="submit" value="Регистрация">
   </form>

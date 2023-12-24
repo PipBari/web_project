@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Список объявлений</h1>
+<ul>
+    <li th:each="id : ${offerIds}">
+        <span th:text="${id}"></span>
+        <a th:href="@{/viewOffer/{id}(id=${id})}" class="btn btn-primary">Просмотреть</a>
+        <form th:action="@{/deleteOffer/{id}(id=${id})}" method="post">
+            <input type="submit" value="Удалить" class="btn btn-danger"/>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

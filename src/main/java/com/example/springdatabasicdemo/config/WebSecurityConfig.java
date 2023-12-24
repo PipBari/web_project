@@ -37,10 +37,12 @@ public class WebSecurityConfig {
         http
                 .authenticationProvider(authenticationProvider())
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/users/list").hasRole("ADMIN")
+                        .requestMatchers("/adminboard").hasRole("ADMIN")
                         .requestMatchers("/offers/**").permitAll()
+                        .requestMatchers("/models/**").permitAll()
                         .requestMatchers("/users/add").permitAll()
-                        .requestMatchers("/users/view").permitAll()
+                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/brands/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

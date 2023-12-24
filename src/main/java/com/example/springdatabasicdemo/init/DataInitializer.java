@@ -59,9 +59,15 @@ public class DataInitializer implements CommandLineRunner {
         UserDto us2 = new UserDto(null, "Aboba", passwordEncoder.encode("1234"), "Aboba", "Abobus", true, "", urc1);
         UserDto uss2 = userService.add(us2);
         // Объявления
-        OfferDto o1 = new OfferDto(null, "", Engine.DIESEL, "", 20, 100000, Transmission.MANUAL, mc1, uss1);
+        OfferDto o1 = new OfferDto(null, "", Engine.DIESEL, "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/ParkPatriot2015part4-12.jpg/1200px-ParkPatriot2015part4-12.jpg", 20, 100000, Transmission.MANUAL, mc1, uss1);
         OfferDto os1 = offerService.add(o1);
-        OfferDto o2 = new OfferDto(null, "Тайфун машина реально", Engine.DIESEL, "", 10, 100000, Transmission.MANUAL, mc3, uss2);
+        OfferDto o2 = new OfferDto(null, "Тайфун машина реально", Engine.DIESEL, "https://upload.wikimedia.org/wikipedia/commons/9/9d/April_9th_rehearsal_in_Alabino_of_2014_Victory_Day_Parade_%28558-17%29.jpg", 10, 100000, Transmission.MANUAL, mc3, uss2);
         OfferDto os2 = offerService.add(o2);
+        OfferDto os3 = offerService.add(o2);
+        OfferDto os4 = offerService.add(o2);
+        OfferDto os5 = offerService.add(o2);
+        OfferDto os6 = offerService.add(o2);
+        OfferDto os7 = offerService.add(o2);
+        OfferDto os8 = offerService.add(o2);
     }
 }
