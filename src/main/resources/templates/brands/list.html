@@ -48,21 +48,11 @@
     <div id="branding">
         <h1>Список категорий</h1>
     </div>
-    <nav>
-        <ul>
-            <li><a href="/brands/add" style="color: black">Добавить категорию</a></li>
-        </ul>
-    </nav>
 </header>
 <div class="container">
     <ul>
         <li th:each="brand : ${brands}">
             <span th:text="${brand.name}">Название категории</span>
-            <a th:href="@{/brands/{id}(id=${brand.id})}">Посмотреть</a>
-            <a th:href="@{/brands/{id}/edit(id=${brand.id})}">Редактировать</a>
-            <form th:action="@{/brands/{id}/delete(id=${brand.id})}" method="post" style="display: inline;">
-                <input type="submit" value="Удалить">
-            </form>
         </li>
     </ul>
 </div>
