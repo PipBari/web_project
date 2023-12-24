@@ -78,7 +78,7 @@ public class OfferController {
 
 
     @GetMapping("/create")
-    public String createOfferForm(Model model) {
+    public String createOffer(Model model) {
         model.addAttribute("offer", new OfferDto());
         model.addAttribute("allUsers", populateUsers());
         model.addAttribute("allModels", populateModels());
@@ -113,18 +113,19 @@ public class OfferController {
     @PostMapping("/{id}/update")
     public String updateOffer(@PathVariable UUID id, @ModelAttribute("offer") OfferDto offerDto) {
         offerService.update(offerDto);
-        return "redirect:/offers";
+        return "redirect:/offers/list";
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public String createOffer(@ModelAttribute("offer") @Valid OfferDto offerDto) {
+        LOG.info("Creating new offer");
         offerService.add(offerDto);
-        return "redirect:/offers";
+        return "redirect:/offers/list";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteOffer(@PathVariable UUID id) {
         offerService.delete(id);
-        return "redirect:/";
+        return "redirect:/offers/list";
     }
 }

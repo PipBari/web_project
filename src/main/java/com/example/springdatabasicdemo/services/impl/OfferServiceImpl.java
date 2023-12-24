@@ -9,6 +9,7 @@ import com.example.springdatabasicdemo.repositories.OfferRepository;
 import com.example.springdatabasicdemo.repositories.UserRepository;
 import com.example.springdatabasicdemo.services.OfferService;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,6 +38,7 @@ public class OfferServiceImpl implements OfferService<Integer>{
     }
 
     @Override
+    @CacheEvict(value = "offers", allEntries = true)
     public OfferDto add(OfferDto offerDto) {
         Offer offer = modelMapper.map(offerDto, Offer.class);
         offer.setCreated(LocalDate.now());
@@ -53,7 +55,7 @@ public class OfferServiceImpl implements OfferService<Integer>{
         return modelMapper.map(savedOffer, OfferDto.class);
     }
     @Override
-    @Cacheable(value = "offers", key = "#offerDto.id")
+    @CacheEvict(value = "offers", allEntries = true)
     public OfferDto update(OfferDto offerDto) {
         if (offerDto.getId() == null) {
             throw new IllegalArgumentException("Offer ID cannot be null for update");
@@ -90,7 +92,7 @@ public class OfferServiceImpl implements OfferService<Integer>{
     }
 
     @Override
-    @Cacheable(value = "offers", key = "#id.id")
+    @CacheEvict(value = "offers", key = "#id")
     public OfferDto delete(UUID id) {
         offerRepository.deleteById(id);
         return null;

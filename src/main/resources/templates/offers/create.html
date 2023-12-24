@@ -4,52 +4,74 @@
   <meta charset="UTF-8">
   <title>Create New Offer</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .create-offer-container {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
 
+<div class="top-right-controls">
+  <div th:if="${!#authorization.expression('isAuthenticated()')}">
+    <a href="/login" class="btn btn-secondary mb-3">Вход</a>
+    <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
+  </div>
+  <div th:if="${#authorization.expression('isAuthenticated()')}">
+    <a th:href="@{/users/view}" class="btn btn-secondary mb-3">
+      <span th:text="${username}">Username</span>
+    </a>
+  </div>
+</div>
+
 <div class="container mt-5">
   <sec:authorize access="isAuthenticated()">
-    <h1>Create New Offer</h1>
-    <form th:action="@{/offers}" th:object="${offer}" method="post">
-      Description: <input type="text" th:field="*{description}" class="form-control"/><br>
-      Price: <input type="number" th:field="*{price}" class="form-control"/><br>
-      Mileage: <input type="number" th:field="*{mileage}" class="form-control"/><br>
-      Image URL: <input type="text" th:field="*{imageUrl}" class="form-control"/><br>
+    <div class="create-offer-container">
+      <h1>Create New Offer</h1>
+      <form th:action="@{/offers/create}" th:object="${offer}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-      Engine:
-      <select th:field="*{engine}" class="form-control">
-        <option value="">Choose...</option>
-        <option th:each="engine : ${T(com.example.springdatabasicdemo.models.enums.Engine).values()}"
-                th:value="${engine}"
-                th:text="${engine}"></option>
-      </select><br>
+        Description: <input type="text" th:field="*{description}" class="form-control"/><br>
+        Price: <input type="number" th:field="*{price}" class="form-control"/><br>
+        Mileage: <input type="number" th:field="*{mileage}" class="form-control"/><br>
+        Image URL: <input type="text" th:field="*{imageUrl}" class="form-control"/><br>
 
-      Transmission:
-      <select th:field="*{transmission}" class="form-control">
-        <option value="">Choose...</option>
-        <option th:each="transmission : ${T(com.example.springdatabasicdemo.models.enums.Transmission).values()}"
-                th:value="${transmission}"
-                th:text="${transmission}"></option>
-      </select><br>
+        Engine:
+        <select th:field="*{engine}" class="form-control">
+          <option value="">Choose...</option>
+          <option th:each="engine : ${T(com.example.springdatabasicdemo.models.enums.Engine).values()}"
+                  th:value="${engine}"
+                  th:text="${engine}"></option>
+        </select><br>
 
-      Model:
-      <select th:field="*{model.id}" class="form-control">
-        <option value="">Choose...</option>
-        <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}"></option>
-      </select><br>
+        Transmission:
+        <select th:field="*{transmission}" class="form-control">
+          <option value="">Choose...</option>
+          <option th:each="transmission : ${T(com.example.springdatabasicdemo.models.enums.Transmission).values()}"
+                  th:value="${transmission}"
+                  th:text="${transmission}"></option>
+        </select><br>
 
-      User:
-      <select th:field="*{user.id}" class="form-control">
-        <option value="">Choose...</option>
-        <option th:each="user : ${allUsers}" th:value="${user.id}" th:text="${user.username}"></option>
-      </select><br>
+        Model:
+        <select th:field="*{model.id}" class="form-control">
+          <option value="">Choose...</option>
+          <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}"></option>
+        </select><br>
 
-      <input type="submit" value="Submit" class="btn btn-primary">
-    </form>
-  </sec:authorize>
+        User:
+        <select th:field="*{user.id}" class="form-control">
+          <option value="">Choose...</option>
+          <option th:each="user : ${allUsers}" th:value="${user.id}" th:text="${user.username}"></option>
+        </select><br>
 
-  <sec:authorize access="!isAuthenticated()">
-    <p>You need to be logged in to create an offer.</p>
+        <input type="submit" value="Submit" class="btn btn-primary">
+      </form>
+    </div>
   </sec:authorize>
 </div>
 

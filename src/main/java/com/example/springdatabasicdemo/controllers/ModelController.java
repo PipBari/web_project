@@ -41,14 +41,14 @@ public class ModelController {
     }
 
     @GetMapping("/add")
-    public String addModelForm(Model model) {
+    public String addModel(Model model) {
         model.addAttribute("model", new ModelDto());
         model.addAttribute("categories", Category.values());
         model.addAttribute("brands", brandService.getAll());
         return "models/add";
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public String addModel(@ModelAttribute("model") @Valid ModelDto modelDto, BindingResult result) {
         if (result.hasErrors()) {
             return "models/add";
