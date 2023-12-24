@@ -56,12 +56,17 @@ public class OfferController {
                 .collect(Collectors.toList());
     }
 
+
     @GetMapping("/list")
     public String listOffers(Principal principal, Model model) {
-        LOG.log(Level.INFO, "Show all offers " + principal.getName());
+        LOG.log(Level.INFO, "Show all offers " + (principal != null ? principal.getName() : "Anonymous"));
         model.addAttribute("offersInfos", offerService.getAll());
         List<OfferDto> offers = offerService.getAll();
         model.addAttribute("offers", offers);
+        model.addAttribute("isLoggedIn", principal != null);
+        if (principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
         return "offers/list";
     }
 

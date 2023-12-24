@@ -4,11 +4,46 @@
   <meta charset="UTF-8">
   <title>Offers List</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .offer-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px;
+      display: inline-block;
+      width: 200px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .offer-image {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .top-right-controls {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+
+  </style>
 </head>
 <body>
 
+<div class="top-right-controls">
+  <sec:authorize access="!isAuthenticated()">
+    <a href="/login" class="btn btn-secondary mb-3">Вход</a>
+    <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
+  </sec:authorize>
+  <sec:authorize access="isAuthenticated()">
+    <a th:href="@{/users/view}" class="btn btn-secondary mb-3">
+      <span th:text="${username}">Username</span>
+    </a>
+  </sec:authorize>
+</div>
+
 <div class="container mt-5">
-  <h1>Объявления</h1>
   <a href="/models" class="btn btn-secondary mb-3">Перейти к списку моделей</a>
   <sec:authorize access="isAuthenticated()">
     <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
@@ -18,34 +53,11 @@
 <div class="container mt-5">
   <h1>Объявления</h1>
 
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th>Описание</th>
-      <th>Стоимость</th>
-      <th>Пробег</th>
-      <th>Изображение</th>
-      <th>Двигатель</th>
-      <th>Трансмиссия</th>
-      <th>Продавец</th>
-      <th>Модель</th>
-      <th>Взаимодействие с объявлением</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="offer : ${offers}">
-      <td th:text="${offer.description}">Description</td>
-      <td th:text="${offer.price}">Price</td>
-      <td th:text="${offer.mileage}">Mileage</td>
-      <td>
-        <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Image" style="height: 50px;">
-        <span th:if="${offer.imageUrl == null}">No Image</span>
-      </td>
-      <td th:text="${offer.engine}">Engine</td>
-      <td th:text="${offer.transmission}">Transmission</td>
-      <td th:text="${offer.user.username}">username</td>
-      <td th:text="${offer.model.name}">Model Name</td>
-      <td>
+  <div class="row">
+    <div th:each="offer : ${offers}" class="offer-card">
+      <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Image" class="offer-image">
+      <div th:text="${offer.model.name}">Model Name</div>
+      <div>
         <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Просмотреть</a>
         <sec:authorize access="isAuthenticated()">
           <a th:href="@{/offers/{id}/edit(id=${offer.id})}" class="btn btn-primary">Редактировать</a>
@@ -54,10 +66,9 @@
             <button type="submit" class="btn btn-danger">Удалить</button>
           </form>
         </sec:authorize>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
