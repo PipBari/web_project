@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
     private final BrandService brandService;
@@ -18,19 +20,25 @@ public class DataInitializer implements CommandLineRunner {
     private final OfferService offerService;
     private final UserRoleService userRoleService;
     private final UserService userService;
+    private final JsonDataReader jsonDataReader;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public DataInitializer(BrandService brandService, ModelService modelService, OfferService offerService, UserRoleService userRoleService, UserService userService){
+    public DataInitializer(BrandService brandService, ModelService modelService, OfferService offerService, UserRoleService userRoleService, UserService userService, JsonDataReader jsonDataReader){
         this.brandService=brandService;
         this.modelService=modelService;
         this.offerService=offerService;
         this.userRoleService=userRoleService;
         this.userService=userService;
+        this.jsonDataReader=jsonDataReader;
     }
 
     @Override
     public void run(String... args) throws Exception {
         seedData();
+        List<BrandDto> brands = jsonDataReader.readBrandData();
+        for (BrandDto brand : brands) {
+            brandService.add(brand);
+        }
     }
 
     private void seedData() {
@@ -56,7 +64,7 @@ public class DataInitializer implements CommandLineRunner {
         // Аккаунты
         UserDto us1 = new UserDto(null, "Frede", passwordEncoder.encode("123"), "Mishka", "Frede", true, "https://yt3.googleusercontent.com/NAadweMiZy6uxCXZPsYuRZtDAw3RP49MSO3ZD2D9vx93OMByPb4VQC_R7QH91PrVuPYzXiEru6A=s900-c-k-c0x00ffffff-no-rj", urc2);
         UserDto uss1 = userService.add(us1);
-        UserDto us2 = new UserDto(null, "Aboba", passwordEncoder.encode("1234"), "Aboba", "Abobus", true, "", urc1);
+        UserDto us2 = new UserDto(null, "Aboba", passwordEncoder.encode("1488228"), "Aboba", "Abobus", true, "", urc1);
         UserDto uss2 = userService.add(us2);
         // Объявления
         OfferDto o1 = new OfferDto(null, "", Engine.DIESEL, "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/ParkPatriot2015part4-12.jpg/1200px-ParkPatriot2015part4-12.jpg", 20, 100000, Transmission.MANUAL, mc1, uss1);
