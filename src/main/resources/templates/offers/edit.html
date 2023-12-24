@@ -14,6 +14,7 @@
     <input type="hidden" th:field="*{id}" />
     Description: <input type="text" th:field="*{description}" /><br>
     Price: <input type="number" th:field="*{price}" /><br>
+    Image: <input type="text" th:field="*{imageUrl}"/><br>
     Model:
     <select th:field="*{model.id}">
       <option value="">Choose...</option>
@@ -21,15 +22,6 @@
               th:value="${model.id}"
               th:selected="${model.id.equals(offer.model.id)}"
               th:text="${model.name}">
-      </option>
-    </select><br>
-    User:
-    <select th:field="*{user.id}">
-      <option value="">Choose...</option>
-      <option th:each="user : ${allUsers}"
-              th:value="${user.id}"
-              th:selected="${user.id.equals(offer.user.id)}"
-              th:text="${user.username}">
       </option>
     </select><br>
     <input type="submit" value="Update">

@@ -36,11 +36,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authenticationProvider(authenticationProvider())
-                .authorizeRequests(authz -> authz
+                .authorizeRequests(authorize -> authorize
+                        .requestMatchers("/offers/**", "/index").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/offers/list", true)
+                        .defaultSuccessUrl("/index", true)
                         .permitAll())
                 .logout(logout -> logout.permitAll());
         return http.build();
