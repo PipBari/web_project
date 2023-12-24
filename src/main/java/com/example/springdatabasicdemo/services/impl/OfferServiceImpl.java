@@ -11,12 +11,12 @@ import com.example.springdatabasicdemo.services.OfferService;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,12 +26,14 @@ public class OfferServiceImpl implements OfferService<Integer>{
     private final UserRepository userRepository;
     private final ModelRepository modelRepository;
     private final ModelMapper modelMapper;
+    private final RedisTemplate<String, UUID> redisTemplate;
 
-    public OfferServiceImpl(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository, ModelMapper modelMapper){
+    public OfferServiceImpl(OfferRepository offerRepository, UserRepository userRepository, ModelRepository modelRepository, ModelMapper modelMapper, RedisTemplate<String, UUID> redisTemplate){
        this.offerRepository=offerRepository;
        this.userRepository=userRepository;
        this.modelRepository=modelRepository;
        this.modelMapper=modelMapper;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -92,5 +94,18 @@ public class OfferServiceImpl implements OfferService<Integer>{
     public OfferDto delete(UUID id) {
         offerRepository.deleteById(id);
         return null;
+    }
+
+    @Override
+    public void markOfferAsViewed(UUID offerId, String userId) {
+        SetOperations<String, UUID> setOps = redisTemplate.opsForSet();
+        setOps.add("viewedOffers:" + userId, offerId);
+    }
+
+    @Override
+    public List<UUID> getViewedOfferIdsByUser(String userId) {
+        SetOperations<String, UUID> setOps = redisTemplate.opsForSet();
+        Set<UUID> viewedOffers = setOps.members("viewedOffers:" + userId);
+        return new ArrayList<>(viewedOffers);
     }
 }

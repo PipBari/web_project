@@ -27,23 +27,31 @@
       top: 10px;
     }
 
+    .offer-viewed {
+      background-color: #eef;
+      border-color: #cce;
+    }
   </style>
 </head>
 <body>
 
 <div class="top-right-controls">
-  <sec:authorize access="!isAuthenticated()">
+  <div th:if="${!#authorization.expression('isAuthenticated()')}">
     <a href="/login" class="btn btn-secondary mb-3">Вход</a>
     <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
-  </sec:authorize>
-  <sec:authorize access="isAuthenticated()">
+  </div>
+  <div th:if="${#authorization.expression('isAuthenticated()')}">
     <a th:href="@{/users/view}" class="btn btn-secondary mb-3">
       <span th:text="${username}">Username</span>
     </a>
-  </sec:authorize>
+  </div>
 </div>
 
 <div class="container mt-5">
+  <div th:if="${errorMessage}" class="alert alert-danger">
+    <p th:text="${errorMessage}"></p>
+  </div>
+
   <a href="/models" class="btn btn-secondary mb-3">Перейти к списку моделей</a>
   <sec:authorize access="isAuthenticated()">
     <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
@@ -54,7 +62,7 @@
   <h1>Объявления</h1>
 
   <div class="row">
-    <div th:each="offer : ${offers}" class="offer-card">
+    <div th:each="offer : ${offers}" th:class="${#lists.contains(viewedOffers, offer.id)} ? 'offer-card offer-viewed' : 'offer-card'">
       <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Image" class="offer-image">
       <div th:text="${offer.model.name}">Model Name</div>
       <div>

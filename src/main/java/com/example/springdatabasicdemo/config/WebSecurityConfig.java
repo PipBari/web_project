@@ -37,13 +37,21 @@ public class WebSecurityConfig {
         http
                 .authenticationProvider(authenticationProvider())
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/offers/**", "/index").permitAll()
+                        .requestMatchers("/users/list").hasRole("ADMIN")
+                        .requestMatchers("/offers/**").permitAll()
+                        .requestMatchers("/users/add").permitAll()
+                        .requestMatchers("/users/view").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/index", true)
                         .permitAll())
-                .logout(logout -> logout.permitAll());
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/index")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll());
         return http.build();
     }
 }

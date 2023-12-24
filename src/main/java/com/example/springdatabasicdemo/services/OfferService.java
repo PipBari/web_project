@@ -16,4 +16,7 @@ public interface OfferService<ID>{
     Optional<OfferDto> findOffer(UUID id);
 
     OfferDto delete(UUID id);
+
+    void markOfferAsViewed(UUID offerId, String userId);
+    List<UUID> getViewedOfferIdsByUser(String username);
 }

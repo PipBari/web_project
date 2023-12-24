@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <title>User List</title>
   <style>
@@ -43,30 +44,35 @@
   </style>
 </head>
 <body>
-<h1>Список пользователей</h1>
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Username</th>
-    <th>Имя</th>
-    <th>Фамилия</th>
-    <th>Работа с профилем</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="user : ${users}">
-    <td th:text="${user.id}"></td>
-    <td th:text="${user.username}"></td>
-    <td th:text="${user.firstname}"></td>
-    <td th:text="${user.lastname}"></td>
-    <td>
-      <a th:href="@{/user/view/{id}(id=${user.id})}">Просмотреть</a> |
-      <a th:href="@{/user/edit/{id}(id=${user.id})}">Редактировать</a> |
-      <a th:href="@{/user/delete/{id}(id=${user.id})}">Деактивация</a>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div sec:authorize="hasRole('ADMIN')">
+  <h1>Список пользователей</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Имя</th>
+      <th>Фамилия</th>
+      <th>Работа с профилем</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}"></td>
+      <td th:text="${user.username}"></td>
+      <td th:text="${user.firstname}"></td>
+      <td th:text="${user.lastname}"></td>
+      <td>
+        <a th:href="@{/user/view/{id}(id=${user.id})}">Просмотреть</a> |
+        <a th:href="@{/user/edit/{id}(id=${user.id})}">Редактировать</a> |
+        <a th:href="@{/user/delete/{id}(id=${user.id})}">Деактивация</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div sec:authorize="!hasRole('ADMIN')">
+  <p>Извините, у вас нет доступа к этой странице.</p>
+</div>
 </body>
 </html>

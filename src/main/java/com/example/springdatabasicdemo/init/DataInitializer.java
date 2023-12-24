@@ -54,7 +54,7 @@ public class DataInitializer implements CommandLineRunner {
         UserRoleDto ur2 = new UserRoleDto(null, Role.ADMIN);
         UserRoleDto urc2 = userRoleService.add(ur2);
         // Аккаунты
-        UserDto us1 = new UserDto(null, "Frede", passwordEncoder.encode("123"), "Mishka", "Frede", true, "https://yt3.googleusercontent.com/NAadweMiZy6uxCXZPsYuRZtDAw3RP49MSO3ZD2D9vx93OMByPb4VQC_R7QH91PrVuPYzXiEru6A=s900-c-k-c0x00ffffff-no-rj", urc1);
+        UserDto us1 = new UserDto(null, "Frede", passwordEncoder.encode("123"), "Mishka", "Frede", true, "https://yt3.googleusercontent.com/NAadweMiZy6uxCXZPsYuRZtDAw3RP49MSO3ZD2D9vx93OMByPb4VQC_R7QH91PrVuPYzXiEru6A=s900-c-k-c0x00ffffff-no-rj", urc2);
         UserDto uss1 = userService.add(us1);
         UserDto us2 = new UserDto(null, "Aboba", passwordEncoder.encode("1234"), "Aboba", "Abobus", true, "", urc1);
         UserDto uss2 = userService.add(us2);

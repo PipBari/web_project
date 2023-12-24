@@ -17,9 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,7 @@ public class OfferController {
     private UserService userService;
     private ModelService modelService;
     private ModelMapper modelMapper;
+
 
     private static final Logger LOG = LogManager.getLogger(Controller.class);
     @Autowired
@@ -56,19 +60,22 @@ public class OfferController {
                 .collect(Collectors.toList());
     }
 
-
     @GetMapping("/list")
     public String listOffers(Principal principal, Model model) {
         LOG.log(Level.INFO, "Show all offers " + (principal != null ? principal.getName() : "Anonymous"));
-        model.addAttribute("offersInfos", offerService.getAll());
         List<OfferDto> offers = offerService.getAll();
         model.addAttribute("offers", offers);
         model.addAttribute("isLoggedIn", principal != null);
         if (principal != null) {
             model.addAttribute("username", principal.getName());
+            List<UUID> viewedOfferIds = offerService.getViewedOfferIdsByUser(principal.getName());
+            model.addAttribute("viewedOffers", viewedOfferIds);
+        } else {
+            model.addAttribute("viewedOffers", Collections.emptyList());
         }
         return "offers/list";
     }
+
 
     @GetMapping("/create")
     public String createOfferForm(Model model) {
@@ -89,10 +96,17 @@ public class OfferController {
     }
 
     @GetMapping("/{id}")
-    public String viewOffer(@PathVariable UUID id, Model model) throws Throwable {
-        OfferDto offerDto = (OfferDto) offerService.findOffer(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid offer Id:" + id));
+    public String viewOffer(@PathVariable UUID id, Principal principal, Model model, RedirectAttributes redirectAttributes) {
+        Optional<OfferDto> offerDtoOptional = offerService.findOffer(id);
+        if (!offerDtoOptional.isPresent()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid offer Id: " + id);
+            return "redirect:/offers/list";
+        }
+        OfferDto offerDto = offerDtoOptional.get();
         model.addAttribute("offer", offerDto);
+        if (principal != null) {
+            offerService.markOfferAsViewed(id, principal.getName());
+        }
         return "offers/view";
     }
 
