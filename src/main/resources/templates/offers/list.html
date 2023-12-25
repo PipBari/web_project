@@ -44,6 +44,9 @@
     <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="btn btn-secondary mb-3">
       <span th:text="${#authentication.name}">Профиль</span>
     </a>
+    <form th:action="@{/logout}" method="post">
+      <input type="submit" value="Выйти" class="btn btn-secondary mb-3"/>
+    </form>
   </div>
 </div>
 
@@ -52,9 +55,10 @@
     <p th:text="${errorMessage}"></p>
   </div>
 
-  <a href="/models" class="btn btn-secondary mb-3">Перейти к списку моделей</a>
   <sec:authorize access="isAuthenticated()">
+  <a href="/models" class="btn btn-secondary mb-3">Перейти к списку моделей</a>
     <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
+    <a href="/offers/myoffers" class="btn btn-primary mb-3">Мои Объявления</a>
   </sec:authorize>
 </div>
 

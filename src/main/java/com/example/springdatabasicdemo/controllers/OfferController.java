@@ -3,6 +3,7 @@ package com.example.springdatabasicdemo.controllers;
 import com.example.springdatabasicdemo.dtos.ModelDto;
 import com.example.springdatabasicdemo.dtos.OfferDto;
 import com.example.springdatabasicdemo.dtos.UserDto;
+import com.example.springdatabasicdemo.models.User;
 import com.example.springdatabasicdemo.repositories.ModelRepository;
 import com.example.springdatabasicdemo.repositories.UserRepository;
 import com.example.springdatabasicdemo.services.ModelService;
@@ -36,7 +37,6 @@ public class OfferController {
     private ModelService modelService;
     private ModelMapper modelMapper;
 
-
     private static final Logger LOG = LogManager.getLogger(Controller.class);
     @Autowired
     public void SetOfferService(OfferService offerService, UserService userService, ModelService modelService, ModelMapper modelMapper) {
@@ -44,13 +44,6 @@ public class OfferController {
         this.userService = userService;
         this.modelService = modelService;
         this.modelMapper=modelMapper;
-    }
-
-    @ModelAttribute("allUsers")
-    public List<UserDto> populateUsers() {
-        return (List<UserDto>) userService.getAll().stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
-                .collect(Collectors.toList());
     }
 
     @ModelAttribute("allModels")
@@ -76,11 +69,9 @@ public class OfferController {
         return "offers/list";
     }
 
-
     @GetMapping("/create")
     public String createOffer(Model model) {
         model.addAttribute("offer", new OfferDto());
-        model.addAttribute("allUsers", populateUsers());
         model.addAttribute("allModels", populateModels());
         return "offers/create";
     }
@@ -91,7 +82,6 @@ public class OfferController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid offer Id:" + id));
         model.addAttribute("offer", offer);
         model.addAttribute("allModels", populateModels());
-        model.addAttribute("allUsers", populateUsers());
         return "offers/edit";
     }
 
@@ -117,15 +107,30 @@ public class OfferController {
     }
 
     @PostMapping("/create")
-    public String createOffer(@ModelAttribute("offer") @Valid OfferDto offerDto) {
-        LOG.info("Creating new offer");
+    public String createOffer(@ModelAttribute OfferDto offerDto, Principal principal) throws Throwable {
+        String username = principal.getName();
+        UserDto userDto = (UserDto) userService.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        offerDto.setUser(userDto);
         offerService.add(offerDto);
         return "redirect:/offers/list";
     }
 
-    @PostMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteOffer(@PathVariable UUID id) {
         offerService.delete(id);
-        return "redirect:/offers/list";
+        return "redirect:/offers/myoffers";
     }
+
+    @GetMapping("/myoffers")
+    public String listUserOffers(Principal principal, Model model) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        List<OfferDto> userOffers = offerService.getOffersByUser(username);
+        model.addAttribute("offers", userOffers);
+        return "offers/myoffers";
+    }
+
 }

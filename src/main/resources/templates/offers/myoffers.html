@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Мои Объявления</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .offer-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px;
+      display: inline-block;
+      width: 300px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .offer-image {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Мои Объявления</h1>
+
+  <div class="row">
+    <div th:each="offer : ${offers}" class="col-md-4">
+      <div class="offer-card">
+        <img th:if="${offer.imageUrl}" th:src="${offer.imageUrl}" alt="Изображение" class="offer-image mb-3">
+        <h5 th:text="${offer.model.name}">Название модели</h5>
+        <p th:text="${offer.description}">Описание</p>
+        <div class="mb-2">
+          <span th:text="'Цена: ' + ${offer.price} + ' руб.'">Цена</span>
+        </div>
+        <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Подробнее</a>
+        <a th:href="@{/offers/{id}/edit(id=${offer.id})}" class="btn btn-secondary mt-2">Редактировать</a>
+        <a th:href="@{/offers/delete/{id}(id=${offer.id})}" class="btn btn-danger mt-2">Удалить</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

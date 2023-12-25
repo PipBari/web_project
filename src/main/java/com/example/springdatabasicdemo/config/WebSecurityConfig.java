@@ -37,12 +37,7 @@ public class WebSecurityConfig {
         http
                 .authenticationProvider(authenticationProvider())
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/adminboard").hasRole("ADMIN")
-                        .requestMatchers("/offers/**").permitAll()
-                        .requestMatchers("/models/**").permitAll()
-                        .requestMatchers("/users/add").permitAll()
-                        .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/brands/**").permitAll()
+                        .requestMatchers("/adminboard").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -51,8 +46,6 @@ public class WebSecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/index")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
                         .permitAll());
         return http.build();
     }

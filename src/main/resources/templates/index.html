@@ -40,7 +40,7 @@
   </style>
 </head>
 <body>
-<h1>Каталог объявлений по продаже машин</h1>
+<h1>Каталог машин</h1>
 <div class="top-right-controls" th:if="${!#authorization.expression('isAuthenticated()')}">
   <a href="/login" class="btn btn-secondary mb-3">Вход</a>
   <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
@@ -50,6 +50,9 @@
   <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="btn btn-secondary mb-3">
     <span th:text="${#authentication.name}">Профиль</span>
   </a>
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" value="Выйти" class="btn btn-secondary mb-3"/>
+  </form>
 </div>
 
 <div>

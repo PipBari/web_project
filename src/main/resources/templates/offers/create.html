@@ -63,12 +63,6 @@
           <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}"></option>
         </select><br>
 
-        User:
-        <select th:field="*{user.id}" class="form-control">
-          <option value="">Choose...</option>
-          <option th:each="user : ${allUsers}" th:value="${user.id}" th:text="${user.username}"></option>
-        </select><br>
-
         <input type="submit" value="Submit" class="btn btn-primary">
       </form>
     </div>

@@ -86,7 +86,7 @@ public class OfferServiceImpl implements OfferService<Integer>{
         return offerRepository.findAll().stream().map((c) -> modelMapper.map(c, OfferDto.class)).collect(Collectors.toList());
     }
     @Override
-    @Cacheable(value = "offers", key = "#id")
+    @CacheEvict(value = "offers", allEntries = true)
     public Optional<OfferDto> findOffer(UUID id){
         return offerRepository.findById(id)
                 .map(offer -> modelMapper.map(offer, OfferDto.class));
@@ -123,6 +123,15 @@ public class OfferServiceImpl implements OfferService<Integer>{
     public Optional<UserDto> findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .map(user -> modelMapper.map(user, UserDto.class));
+    }
+
+    @Override
+    public List<OfferDto> getOffersByUser(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+        return offerRepository.findByUser(user).stream()
+                .map(offer -> modelMapper.map(offer, OfferDto.class))
+                .collect(Collectors.toList());
     }
 
 }

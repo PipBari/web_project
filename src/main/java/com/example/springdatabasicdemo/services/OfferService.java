@@ -26,4 +26,6 @@ public interface OfferService<ID>{
     List<UUID> getAllOfferIds();
 
     Optional<UserDto> findByUsername(String username);
+
+    List<OfferDto> getOffersByUser(String username);
 }

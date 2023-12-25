@@ -4,6 +4,7 @@ import com.example.springdatabasicdemo.dtos.OfferDto;
 import com.example.springdatabasicdemo.services.OfferService;
 import com.example.springdatabasicdemo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +37,7 @@ public class WebController {
         }
         return "index";
     }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/adminboard")
     public String adminBoard(@AuthenticationPrincipal UserDetails userDetails, ModelMap model) {
         if (userDetails != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {

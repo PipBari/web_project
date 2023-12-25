@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<h1>Список объявлений</h1>
-<ul>
-    <li th:each="id : ${offerIds}">
-        <span th:text="${id}"></span>
-        <a th:href="@{/viewOffer/{id}(id=${id})}" class="btn btn-primary">Просмотреть</a>
-        <form th:action="@{/deleteOffer/{id}(id=${id})}" method="post">
-            <input type="submit" value="Удалить" class="btn btn-danger"/>
-        </form>
-    </li>
-</ul>
+<div sec:authorize="hasAuthority('ROLE_ADMIN')">
+    <h1>Административная панель</h1>
+    <div>
+        <h2>Список объявлений</h2>
+        <ul>
+            <li th:each="id : ${offerIds}">
+                <span th:text="${id}"></span>
+                <a th:href="@{/viewOffer/{id}(id=${id})}" class="btn btn-primary">Просмотреть</a>
+                <form th:action="@{/deleteOffer/{id}(id=${id})}" method="post">
+                    <input type="submit" value="Удалить" class="btn btn-danger"/>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div sec:authorize="!hasAuthority('ROLE_ADMIN')">
+    <p>У вас нет прав доступа к этой странице.</p>
+</div>
 </body>
 </html>
