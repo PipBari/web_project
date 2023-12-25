@@ -29,21 +29,18 @@ public class UserController {
     }
 
     @GetMapping("/add")
-    public String addUserForm(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        if (result.hasErrors()){
-            return "users/add";
-        }
-        userService.add(userDto);
+    public String addUserForm(Model model) {
+        model.addAttribute("user", new UserDto());
         return "users/add";
     }
 
     @PostMapping("/create")
-    public String createUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
+    public String createUser(@ModelAttribute UserDto userDto, BindingResult result) {
         if (result.hasErrors()) {
             return "users/add";
         }
         userService.add(userDto);
-        return "redirect:/users/list";
+        return "redirect:/users/login";
     }
 
     @GetMapping("/edit/{id}")

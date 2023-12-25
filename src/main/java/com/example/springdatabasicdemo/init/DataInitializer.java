@@ -77,5 +77,9 @@ public class DataInitializer implements CommandLineRunner {
         OfferDto os6 = offerService.add(o2);
         OfferDto os7 = offerService.add(o2);
         OfferDto os8 = offerService.add(o2);
+        OfferDto os9 = offerService.add(o1);
+        OfferDto os10 = offerService.add(o1);
+        OfferDto os11 = offerService.add(o1);
+        OfferDto os12 = offerService.add(o1);
     }
 }

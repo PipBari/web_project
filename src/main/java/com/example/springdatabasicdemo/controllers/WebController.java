@@ -49,7 +49,7 @@ public class WebController {
             return "redirect:/index";
         }
     }
-    @PostMapping("/deleteOffer/{id}")
+    @GetMapping("/deleteOffer/{id}")
     public String deleteOffer(@PathVariable UUID id) {
         offerService.delete(id);
         return "redirect:/adminboard";
