@@ -1,5 +1,6 @@
 package com.example.springdatabasicdemo.dtos;
 
+import com.example.springdatabasicdemo.validate.UniqueUsername;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 public class UserDto {
     private UUID id;
+    @UniqueUsername
     @NotNull(message = "Ник не может быть пустым")
     @Size(min = 2, max = 20, message = "Должно быть от 4 до 20 символов")
     private String username;
@@ -22,8 +24,6 @@ public class UserDto {
     private String lastname;
     private Boolean isActive;
     private String imageUrl;
-    private LocalDate created;
-    private LocalDate modified;
     private UserRoleDto userRoleDto;
 
     public UserDto(){}
