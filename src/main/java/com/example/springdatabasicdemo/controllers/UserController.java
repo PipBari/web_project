@@ -4,7 +4,6 @@ import com.example.springdatabasicdemo.dtos.OfferDto;
 import com.example.springdatabasicdemo.dtos.UserDto;
 import com.example.springdatabasicdemo.services.OfferService;
 import com.example.springdatabasicdemo.services.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,19 +32,19 @@ public class UserController {
         return "users/list";
     }
 
-    @GetMapping("/add")
-    public String addUserForm(Model model) {
+    @GetMapping("/register")
+    public String createUserForm(Model model) {
         model.addAttribute("user", new UserDto());
-        return "users/add";
+        return "users/register";
     }
 
-    @PostMapping("/create")
-    public String createUser(@ModelAttribute UserDto userDto, BindingResult result) {
+    @PostMapping
+    public String createUser(@ModelAttribute UserDto user, BindingResult result) {
         if (result.hasErrors()) {
-            return "users/add";
+            return "users/register";
         }
-        userService.add(userDto);
-        return "redirect:/users/login";
+       userService.add(user);
+       return "redirect:/users/login";
     }
 
     @GetMapping("/edit/{id}")
@@ -56,24 +55,7 @@ public class UserController {
         return "users/edit";
     }
 
-    @GetMapping("/view/{id}")
-    public String viewUser(@PathVariable UUID id, Model model) throws Throwable {
-        UserDto userDto = (UserDto) userService.findUser(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        model.addAttribute("user", userDto);
-        return "users/view";
-    }
-
-    @PostMapping("/add")
-    public String addUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        if (result.hasErrors()) {
-            return "users/add";
-        }
-        userService.add(userDto);
-        return "redirect:/index";
-    }
-
-    @PostMapping("/{id}")
+    @PostMapping
     public String updateUser(@PathVariable UUID id, @ModelAttribute UserDto userDto) {
         userService.update(id, userDto);
         return "redirect:/users";

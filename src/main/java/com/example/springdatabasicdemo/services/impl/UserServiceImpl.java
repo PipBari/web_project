@@ -48,7 +48,9 @@ public class UserServiceImpl implements UserService<Integer>{
     }
     @Override
     public UserDto add(UserDto userDto) {
-        User user = modelMapper.map(userDto, User.class);
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
         user.setCreated(LocalDate.now());
         user.setIsActive(true);
         if (userDto.getUserRoleDto() == null || userDto.getUserRoleDto().getRole() == null) {

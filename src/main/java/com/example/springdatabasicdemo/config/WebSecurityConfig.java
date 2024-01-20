@@ -38,7 +38,7 @@ public class WebSecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeRequests(authorize -> authorize
                         .requestMatchers("/adminboard").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/users/add").permitAll()
+                        .requestMatchers("/users/register").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

@@ -55,13 +55,8 @@ public class OfferController {
         List<OfferDto> offers = offerService.getAll();
         model.addAttribute("offers", offers);
         model.addAttribute("isLoggedIn", principal != null);
-        if (principal != null) {
-            model.addAttribute("username", principal.getName());
-            List<UUID> viewedOfferIds = offerService.getViewedOfferIdsByUser(principal.getName());
-            model.addAttribute("viewedOffers", viewedOfferIds);
-        } else {
-            model.addAttribute("viewedOffers", Collections.emptyList());
-        }
+        List<UUID> viewedOfferIds = (principal != null) ? offerService.getViewedOfferIdsByUser(principal.getName()) : Collections.emptyList();
+        model.addAttribute("viewedOffers", viewedOfferIds);
         return "offers/list";
     }
 

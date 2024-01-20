@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация пользователя</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .registration-form {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    .form-field {
+      margin-bottom: 15px;
+    }
+    .form-field label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-field input[type="text"],
+    .form-field input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .form-submit {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #0056b3;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .form-submit:hover {
+      background-color: #004494;
+    }
+  </style>
+</head>
+<body>
+<div class="registration-form">
+  <h2>Регистрация</h2>
+  <form action="/register" method="post">
+    <div class="form-field">
+      <label for="username">Имя пользователя:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div class="form-field">
+      <label for="password">Пароль:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-field">
+      <label for="firstname">Имя:</label>
+      <input type="text" id="firstname" name="firstname" required>
+    </div>
+    <div class="form-field">
+      <label for="lastname">Фамилия:</label>
+      <input type="text" id="lastname" name="lastname" required>
+    </div>
+    <button type="submit" class="form-submit">Зарегистрироваться</button>
+  </form>
+</div>
+</body>
+</html>
