@@ -2,6 +2,7 @@ package com.example.springdatabasicdemo.services;
 
 import com.example.springdatabasicdemo.dtos.OfferDto;
 import com.example.springdatabasicdemo.dtos.UserDto;
+import com.example.springdatabasicdemo.models.Model;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;

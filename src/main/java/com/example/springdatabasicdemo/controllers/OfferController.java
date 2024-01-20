@@ -3,13 +3,9 @@ package com.example.springdatabasicdemo.controllers;
 import com.example.springdatabasicdemo.dtos.ModelDto;
 import com.example.springdatabasicdemo.dtos.OfferDto;
 import com.example.springdatabasicdemo.dtos.UserDto;
-import com.example.springdatabasicdemo.models.User;
-import com.example.springdatabasicdemo.repositories.ModelRepository;
-import com.example.springdatabasicdemo.repositories.UserRepository;
 import com.example.springdatabasicdemo.services.ModelService;
 import com.example.springdatabasicdemo.services.OfferService;
 import com.example.springdatabasicdemo.services.UserService;
-import jakarta.validation.Valid;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -132,5 +128,4 @@ public class OfferController {
         model.addAttribute("offers", userOffers);
         return "offers/myoffers";
     }
-
 }

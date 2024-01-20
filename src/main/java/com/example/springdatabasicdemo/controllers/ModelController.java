@@ -69,14 +69,14 @@ public class ModelController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Model Id:" + id));
         model.addAttribute("model", modelDto);
         model.addAttribute("categories", Category.values());
-        model.addAttribute("brands", brandService.getAll()); // исправлено здесь
+        model.addAttribute("brands", brandService.getAll());
         return "models/edit";
     }
 
 
     @PostMapping("/{id}/update")
     public String updateModel(@PathVariable UUID id, @ModelAttribute ModelDto modelDto) {
-        modelService.update(id, modelDto); // предположим, что такой метод есть в ModelService
+        modelService.update(id, modelDto);
         return "redirect:/models";
     }
 

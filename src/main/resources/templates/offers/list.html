@@ -31,6 +31,21 @@
       background-color: #eef;
       border-color: #cce;
     }
+
+    .btn-align {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn {
+      white-space: nowrap;
+      margin: 0 5px;
+    }
+
+    .btn-align > * {
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -51,19 +66,21 @@
 </div>
 
 <div class="container mt-5">
-  <div th:if="${errorMessage}" class="alert alert-danger">
-    <p th:text="${errorMessage}"></p>
+  <div class="btn-align">
+    <sec:authorize access="isAuthenticated()">
+      <a href="/models" class="btn btn-secondary">Список моделей</a>
+      <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
+      <a href="/offers/myoffers" class="btn btn-primary">Мои Объявления</a>
+    </sec:authorize>
   </div>
 
-  <sec:authorize access="isAuthenticated()">
-  <a href="/models" class="btn btn-secondary mb-3">Перейти к списку моделей</a>
-    <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
-    <a href="/offers/myoffers" class="btn btn-primary mb-3">Мои Объявления</a>
-  </sec:authorize>
+  <h1 class="text-center">Объявления</h1>
 </div>
 
 <div class="container mt-5">
-  <h1>Объявления</h1>
+  <div th:if="${errorMessage}" class="alert alert-danger">
+    <p th:text="${errorMessage}"></p>
+  </div>
 
   <div class="row">
     <div th:each="offer : ${offers}" th:class="${#lists.contains(viewedOffers, offer.id)} ? 'offer-card offer-viewed' : 'offer-card'">

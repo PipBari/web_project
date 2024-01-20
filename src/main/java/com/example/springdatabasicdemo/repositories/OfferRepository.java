@@ -1,5 +1,6 @@
 package com.example.springdatabasicdemo.repositories;
 
+import com.example.springdatabasicdemo.models.Model;
 import com.example.springdatabasicdemo.models.Offer;
 import com.example.springdatabasicdemo.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

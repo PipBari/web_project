@@ -51,11 +51,13 @@
     <span th:text="${#authentication.name}">Профиль</span>
   </a>
   <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Выйти" class="btn btn-secondary mb-3"/>
+    <input type="submit" value="Выйти" class="btn btn-primary mb-3"/>
   </form>
 </div>
 
 <div>
+  <a th:href="@{/brands/list}" class="btn btn-primary">Просмотр брендов</a>
+  <a th:href="@{/models}" class="btn btn-primary">Просмотр моделей</a>
   <a th:href="@{/offers/list}" class="btn btn-primary">Просмотр объявлений</a>
   <a th:href="@{/adminboard}" class="btn btn-primary">Админ панель</a>
 </div>

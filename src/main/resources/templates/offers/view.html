@@ -12,14 +12,16 @@
 
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title" th:text="${offer.model.name}">Model</h5>
-      <h6 class="card-subtitle mb-2 text-muted" th:text="${offer.price}">Price</h6>
-      <p class="card-text" th:text="${offer.description}">Description</p>
-      <p class="card-text"><strong>Engine:</strong> <span th:text="${offer.engine}">Engine</span></p>
-      <p class="card-text"><strong>Mileage:</strong> <span th:text="${offer.mileage}">Mileage</span></p>
-      <p class="card-text"><strong>Transmission:</strong> <span th:text="${offer.transmission}">Transmission</span></p>
-      <p class="card-text"><strong>Seller:</strong> <span th:text="${offer.user.username}">Username</span></p>
-
+      <p class="card-text"><strong>Модель:</strong> <span th:text="${offer.model.name}">Model</span></p>
+      <p class="card-text"><strong>Цена:</strong> <span th:text="${offer.price}">Price</span></p>
+      <p class="card-text"><strong>Описание:</strong> <span th:text="${offer.description}">Description</span></p>
+      <p class="card-text"><strong>Тип двигателя:</strong> <span th:text="${offer.engine}">Engine</span></p>
+      <p class="card-text"><strong>Пробег:</strong> <span th:text="${offer.mileage}">Mileage</span></p>
+      <p class="card-text"><strong>Трансмиссия:</strong> <span th:text="${offer.transmission}">Transmission</span></p>
+      <p class="card-text">
+        <strong>Продавец:</strong>
+        <a th:href="@{/users/profile/{username}(username=${offer.user.username})}" th:text="${offer.user.username}">Username</a>
+      </p>
       <div th:if="${offer.imageUrl}">
         <img th:src="${offer.imageUrl}" alt="Car Image" class="img-fluid"/>
       </div>

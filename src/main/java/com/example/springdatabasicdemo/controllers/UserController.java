@@ -1,6 +1,8 @@
 package com.example.springdatabasicdemo.controllers;
 
+import com.example.springdatabasicdemo.dtos.OfferDto;
 import com.example.springdatabasicdemo.dtos.UserDto;
+import com.example.springdatabasicdemo.services.OfferService;
 import com.example.springdatabasicdemo.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -16,10 +19,12 @@ import java.util.UUID;
 public class UserController {
 
     private UserService userService;
+    private OfferService offerService;
 
     @Autowired
-    public void SetUserController(UserService userService) {
+    public void SetUserController(UserService userService, OfferService offerService) {
         this.userService = userService;
+        this.offerService = offerService;
     }
 
     @GetMapping("/list")
@@ -88,4 +93,13 @@ public class UserController {
         return "users/view";
     }
 
+    @GetMapping("/profile/{username}/user_offers")
+    public String userOffers(@PathVariable String username, Model model) throws Throwable {
+        UserDto userDto = (UserDto) userService.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + username));
+        List<OfferDto> userOffers = offerService.getOffersByUser(username);
+        model.addAttribute("user", userDto);
+        model.addAttribute("offers", userOffers);
+        return "users/user_offers";
+    }
 }

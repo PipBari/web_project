@@ -64,22 +64,12 @@ public class DataInitializer implements CommandLineRunner {
         // Аккаунты
         UserDto us1 = new UserDto(null, "Frede", passwordEncoder.encode("123"), "Mishka", "Frede", true, "https://yt3.googleusercontent.com/NAadweMiZy6uxCXZPsYuRZtDAw3RP49MSO3ZD2D9vx93OMByPb4VQC_R7QH91PrVuPYzXiEru6A=s900-c-k-c0x00ffffff-no-rj", urc2);
         UserDto uss1 = userService.add(us1);
-        UserDto us2 = new UserDto(null, "Aboba", passwordEncoder.encode("123"), "Aboba", "Abobus", true, "", urc1);
+        UserDto us2 = new UserDto(null, "DedDetrov", passwordEncoder.encode("123"), "Глад", "Валакас", true, "https://m.media-amazon.com/images/I/31+nhvDVDbL._SX354_SY354_BL0_QL100__UXNaN_FMjpg_QL85_.jpg", urc1);
         UserDto uss2 = userService.add(us2);
         // Объявления
         OfferDto o1 = new OfferDto(null, "", Engine.DIESEL, "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/ParkPatriot2015part4-12.jpg/1200px-ParkPatriot2015part4-12.jpg", 20, 100000, Transmission.MANUAL, mc1, uss1);
         OfferDto os1 = offerService.add(o1);
         OfferDto o2 = new OfferDto(null, "Урал реальный", Engine.DIESEL, "https://upload.wikimedia.org/wikipedia/commons/b/bc/Ural-4320.jpg", 10, 100000, Transmission.MANUAL, mc2, uss2);
         OfferDto os2 = offerService.add(o2);
-        OfferDto os3 = offerService.add(o2);
-        OfferDto os4 = offerService.add(o2);
-        OfferDto os5 = offerService.add(o2);
-        OfferDto os6 = offerService.add(o2);
-        OfferDto os7 = offerService.add(o2);
-        OfferDto os8 = offerService.add(o2);
-        OfferDto os9 = offerService.add(o1);
-        OfferDto os10 = offerService.add(o1);
-        OfferDto os11 = offerService.add(o1);
-        OfferDto os12 = offerService.add(o1);
     }
 }

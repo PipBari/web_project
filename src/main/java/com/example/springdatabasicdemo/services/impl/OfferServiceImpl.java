@@ -133,5 +133,4 @@ public class OfferServiceImpl implements OfferService<Integer>{
                 .map(offer -> modelMapper.map(offer, OfferDto.class))
                 .collect(Collectors.toList());
     }
-
 }

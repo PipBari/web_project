@@ -15,6 +15,8 @@ public class OfferDto {
     private String description;
     private Engine engine;
     private String imageUrl;
+    @NotNull(message = "Цена не может быть пустой")
+    @Min(value = 1)
     private int mileage;
     @NotNull(message = "Цена не может быть пустой")
     @Min(value = 1)

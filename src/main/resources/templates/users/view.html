@@ -8,12 +8,12 @@
 <h1>Просмотр пользователя</h1>
 <div>
   <h2 th:text="${user.username}">Username</h2>
-  <p><strong>ID:</strong> <span th:text="${user.id}">ID</span></p>
-  <p><strong>First Name:</strong> <span th:text="${user.firstname}">Имя</span></p>
-  <p><strong>Last Name:</strong> <span th:text="${user.lastname}">Фамилия</span></p>
-  <p><strong>Active:</strong> <span th:text="${user.isActive} ? 'Yes' : 'No'">Статус аккаунта</span></p>
+  <p><strong>Имя:</strong> <span th:text="${user.firstname}">FirstName</span></p>
+  <p><strong>Фамилия:</strong> <span th:text="${user.lastname}">LastName</span></p>
+  <p><strong>Статус аккаунта:</strong><span th:text="${user.isActive} ? ' Активен' : ' Забанен'">Status</span></p>
+  <a th:href="@{/users/profile/{username}/user_offers(username=${user.username})}" class="btn btn-primary">Объявления пользователя</a>
   <div th:if="${user.imageUrl}">
-    <h3>User Image:</h3>
+    <h3>Изображение пользователя:</h3>
     <img th:src="${user.imageUrl}" alt="User Image" />
   </div>
   <p th:unless="${user.imageUrl}">No image available.</p>
