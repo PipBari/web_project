@@ -1,66 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Список категорий</title>
+    <title>Brand List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #bbb 1px solid;
-        }
-        header a {
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        ul li {
-            background: #fff;
-            margin-right: 10px;
-            padding: 10px;
-            font-size: 18px;
-            white-space: nowrap;
-        }
-        ul li:last-child {
-            margin-right: 0;
-        }
-        ul li a {
-            margin-right: 10px;
+        .top-right-controls {
+            position: absolute;
+            right: 10px;
+            top: 10px;
         }
     </style>
 </head>
 <body>
-<header class="container">
-    <div id="branding">
-        <h1>Список марок автомобилей</h1>
+
+<div class="top-right-controls">
+    <div th:if="${!#authorization.expression('isAuthenticated()')}">
+        <a href="/login" class="btn btn-secondary mb-3">Вход</a>
+        <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
     </div>
-</header>
-<div class="container">
-    <ul>
-        <li th:each="brand : ${brands}">
-            <span th:text="${brand.name}">Название категории</span>
-        </li>
-    </ul>
+    <div sec:authorize="isAuthenticated()" class="top-right-controls">
+        <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="btn btn-secondary mb-3">
+            <span th:text="${#authentication.name}">Профиль</span>
+        </a>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Выйти" class="btn btn-secondary mb-3"/>
+        </form>
+    </div>
 </div>
+
+<div class="container mt-5">
+    <div class="btn-align">
+        <sec:authorize access="isAuthenticated()">
+            <a href="/index" class="btn btn-secondary">Главная страница</a>
+            <a href="/models/list" class="btn btn-secondary">Список моделей</a>
+            <a href="/offers/list" class="btn btn-secondary">Просмотреть объявления</a>
+        </sec:authorize>
+    </div>
+
+    <h1 class="text-center">Список марок автомобилей</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Название</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="brand : ${brands}">
+            <td th:text="${brand.name}">Brand Name</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/brands/add}" class="btn btn-success">Добавить новую марку автомобиля</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>

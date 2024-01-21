@@ -2,47 +2,38 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Управление пользователями</title>
+  <title>User Management</title>
 </head>
 <body>
-<h1>Список пользователей</h1>
+<h1>User List</h1>
+<div th:if="${not #lists.isEmpty(flashAttributes)}">
+  <div th:each="message : ${flashAttributes}">
+    <p th:text="${message}"></p>
+  </div>
+</div>
 <table>
   <tr>
     <th>ID</th>
-    <th>Имя пользователя</th>
-    <th>Статус</th>
-    <th>Роль</th>
-    <th>Действия</th>
+    <th>Username</th>
+    <th>Role</th>
   </tr>
   <tr th:each="user : ${users}">
     <td th:text="${user.id}"></td>
     <td th:text="${user.username}"></td>
     <td>
-      <form th:action="@{/adminboard/updateUserStatus/{id}(id=${user.id})}" method="post">
-        <select name="isActive">
-          <option th:selected="${user.isActive}" value="true">Активен</option>
-          <option th:selected="${!user.isActive}" value="false">Неактивен</option>
-        </select>
-        <input type="submit" value="Изменить статус"/>
-      </form>
-    </td>
-    <td>
-      <form th:action="@{/adminboard/updateUserRole/{id}(id=${user.id})}" method="post">
-        <select name="role">
+      <form th:action="@{/adminboard/updateUserRole}" method="post">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <select name="roleId">
           <option th:each="role : ${roles}"
                   th:value="${role.id}"
                   th:text="${role.role}"
                   th:selected="${user.userRoleDto != null and role.id.toString() == user.userRoleDto.id.toString()}"></option>
         </select>
-        <input type="submit" value="Изменить роль"/>
-      </form>
-    </td>
-    <td>
-      <form th:action="@{/adminboard/deleteUser/{id}(id=${user.id})}" method="post">
-        <input type="submit" value="Деактивировать"/>
+        <input type="submit" value="Update Role"/>
       </form>
     </td>
   </tr>
 </table>
+<a href="/adminboard">Назад к админ панели</a>
 </body>
 </html>

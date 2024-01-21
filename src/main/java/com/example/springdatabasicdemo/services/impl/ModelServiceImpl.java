@@ -48,8 +48,9 @@ public class ModelServiceImpl implements ModelService<Integer> {
     }
 
     @Override
-    public void delete(UUID id) {
-        modelRepository.findById(id).ifPresent(modelRepository::delete);
+    public ModelDto delete(UUID id) {
+        modelRepository.deleteById(id);
+        return null;
     }
 
     @Override

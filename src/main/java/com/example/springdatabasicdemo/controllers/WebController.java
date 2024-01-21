@@ -16,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -43,10 +46,10 @@ public class WebController {
         return "index";
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/adminboard")
     public String adminBoard(@AuthenticationPrincipal UserDetails userDetails, ModelMap model) {
-        if (userDetails != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+        if (userDetails != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
             model.addAttribute("username", userDetails.getUsername());
             List<UUID> offerIds = offerService.getAllOfferIds();
             model.addAttribute("offerIds", offerIds);
@@ -56,14 +59,7 @@ public class WebController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/adminboard/offers")
-    public String listOffers(Model model){
-        model.addAttribute("offers", offerService.getAll());
-        return "admins/offers";
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/adminboard/users")
     public String listUsers(Model model) {
         List<UserDto> users = userService.getAll();
@@ -73,20 +69,32 @@ public class WebController {
         return "admins/users";
     }
 
-    @GetMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable UUID id) {
-        userService.delete(id);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/adminboard/users")
+    public String updateUser(@RequestParam UUID id, @RequestParam(required = false) UUID roleId, RedirectAttributes redirectAttributes) throws Throwable {
+        UserDto userDto = (UserDto) userService.findUser(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        userService.update(id, userDto);
+        redirectAttributes.addFlashAttribute("successMessage", "User updated successfully");
         return "redirect:/adminboard/users";
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/adminboard/updateUserRole")
+    public String updateUserRole(@RequestParam UUID userId, @RequestParam UUID roleId, RedirectAttributes redirectAttributes) {
+        userService.updateUserRole(userId, roleId);
+        redirectAttributes.addFlashAttribute("successMessage", "Role updated successfully");
+        return "redirect:/adminboard/users";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/adminboard/models")
     public String listModels(Model model) {
         model.addAttribute("models", modelService.getAll());
         return "admins/models";
     }
 
-    @GetMapping("/deleteModel/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/deleteModel/{id}")
     public String deleteModel(@PathVariable UUID id) {
         modelService.delete(id);
         return "redirect:/adminboard/models";

@@ -19,5 +19,7 @@ public interface UserService<ID>{
 
     UserDto deactivateAccount(UUID id);
 
+    void updateUserRole(UUID userId, UUID roleId);
+
     UserDto update(UUID id, UserDto userDto);
 }

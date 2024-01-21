@@ -27,7 +27,7 @@ public class WebSecurityConfig {
     public GrantedAuthoritiesMapper authoritiesMapper() {
         SimpleAuthorityMapper authorityMapper = new SimpleAuthorityMapper();
         authorityMapper.setConvertToUpperCase(true);
-        authorityMapper.setDefaultAuthority("0");
+        authorityMapper.setDefaultAuthority("USER");
         return authorityMapper;
     }
 
@@ -36,7 +36,7 @@ public class WebSecurityConfig {
         http
                 .authorizeRequests(authorize -> authorize
                         .requestMatchers("/offers/**", "/models/**", "/brands/**").authenticated()
-                        .requestMatchers("/adminboard").access("hasAuthority('1')")
+                        .requestMatchers("/adminboard").access("hasAuthority('ADMIN')")
                         .requestMatchers("/users/add").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form

@@ -22,21 +22,22 @@ public class BrandController {
         this.brandService = brandService;
     }
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public String listBrands(Model model) {
         model.addAttribute("brands", brandService.getAll());
         return "brands/list";
     }
 
     @GetMapping("/add")
-    public String addBrand(Model model) {
+    public String addBrandForm(Model model) {
         model.addAttribute("brand", new BrandDto());
         return "brands/add";
     }
 
-    @PostMapping
-    public String addBrand(@ModelAttribute("brand") @Valid BrandDto brandDto, BindingResult result) {
+    @PostMapping("/add")
+    public String addBrand(@Valid @ModelAttribute("brand") BrandDto brandDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("brand", brandDto);
             return "brands/add";
         }
         brandService.add(brandDto);

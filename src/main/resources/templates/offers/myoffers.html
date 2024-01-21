@@ -36,7 +36,6 @@
           <span th:text="'Цена: ' + ${offer.price} + ' руб.'">Цена</span>
         </div>
         <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Подробнее</a>
-        <a th:href="@{/offers/{id}/edit(id=${offer.id})}" class="btn btn-secondary mt-2">Редактировать</a>
         <a th:href="@{/offers/delete/{id}(id=${offer.id})}" class="btn btn-danger mt-2">Удалить</a>
       </div>
     </div>

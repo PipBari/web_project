@@ -5,19 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<div sec:authorize="hasAuthority('ROLE_ADMIN')">
+<div sec:authorize="hasAuthority('ADMIN')">
     <h1>Админ панель</h1>
     <div>
         <h2>Выберите категорию</h2>
         <ul>
-            <li><a href="/adminboard/offers">Объявления</a></li>
             <li><a href="/adminboard/users">Пользователи</a></li>
             <li><a href="/adminboard/models">Модели</a></li>
         </ul>
     </div>
-</div>
-<div sec:authorize="!hasAuthority('ROLE_ADMIN')">
-    <p>У вас нет прав доступа к этой странице.</p>
 </div>
 </body>
 </html>

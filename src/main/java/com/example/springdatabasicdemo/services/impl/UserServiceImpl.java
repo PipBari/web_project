@@ -78,6 +78,17 @@ public class UserServiceImpl implements UserService<Integer>{
     }
 
     @Override
+    public void updateUserRole(UUID userId, UUID roleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
+        UserRole newRole = userRoleRepository.findById(roleId)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found with ID: " + roleId));
+        user.setUserRole(newRole);
+        userRepository.save(user);
+    }
+
+
+    @Override
     public UserDto update(UUID id, UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
         user.setUsername(userDto.getUsername());
