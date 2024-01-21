@@ -3,57 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <title>Добавление новой модели</title>
-  <!-- Добавьте сюда свои стили и скрипты -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .create-offer-container {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .validation-error {
+      color: red;
+    }
+  </style>
+
 </head>
 <body>
-<h1>Добавление новой модели</h1>
+<div class="container mt-5">
+  <h1>Добавление новой модели</h1>
 
-<form th:action="@{/models/add}" th:object="${model}" method="post">
+  <form th:action="@{/models/add}" th:object="${model}" method="post">
+    <div class="form-group">
+      <label for="name">Название:</label>
+      <input type="text" id="name" th:field="*{name}" class="form-control" required/>
+      <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Категория:</label>
+      <select id="category" th:field="*{category}" class="form-control">
+        <option th:each="cat : ${categories}"
+                th:value="${cat}"
+                th:text="${cat}">Категория</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="imageUrl">URL изображения:</label>
+      <input type="text" id="imageUrl" th:field="*{imageUrl}" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+      <label for="startYear">Начальный год:</label>
+      <input type="number" id="startYear" th:field="*{startYear}" class="form-control" required/>
+      <span th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}" class="validation-error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="endYear">Конечный год:</label>
+      <input type="number" id="endYear" th:field="*{endYear}" class="form-control" required/>
+      <span th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}" class="validation-error"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="brand">Бренд:</label>
+      <select id="brand" th:field="*{brand.id}" class="form-control">
+        <option th:each="brand : ${brands}"
+                th:value="${brand.id}"
+                th:text="${brand.name}">Бренд</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Добавить модель</button>
+    </div>
+  </form>
+
   <div>
-    <label for="name">Название:</label>
-    <input type="text" id="name" th:field="*{name}" required/>
+    <a th:href="@{/models/list}" class="btn btn-secondary">Вернуться к списку моделей</a>
   </div>
-
-  <div>
-    <label for="category">Категория:</label>
-    <select id="category" th:field="*{category}">
-      <option th:each="cat : ${categories}"
-              th:value="${cat}"
-              th:text="${cat}">Категория</option>
-    </select>
-  </div>
-
-  <div>
-    <label for="imageUrl">URL изображения:</label>
-    <input type="text" id="imageUrl" th:field="*{imageUrl}"/>
-  </div>
-
-  <div>
-    <label for="startYear">Начальный год:</label>
-    <input type="number" id="startYear" th:field="*{startYear}" required/>
-  </div>
-
-  <div>
-    <label for="endYear">Конечный год:</label>
-    <input type="number" id="endYear" th:field="*{endYear}" required/>
-  </div>
-
-  <div>
-    <label for="brand">Бренд:</label>
-    <select id="brand" th:field="*{brand.id}">
-      <option th:each="brand : ${brands}"
-              th:value="${brand.id}"
-              th:text="${brand.name}">Бренд</option>
-    </select>
-  </div>
-
-  <div>
-    <button type="submit">Добавить модель</button>
-  </div>
-</form>
-
-<div>
-  <a th:href="@{/models/list}">Вернуться к списку моделей</a>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 </body>
 </html>

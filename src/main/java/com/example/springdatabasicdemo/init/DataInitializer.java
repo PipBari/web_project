@@ -57,7 +57,7 @@ public class DataInitializer implements CommandLineRunner {
         ModelDto m3 = new ModelDto(null, "КамАЗ-63968 Тайфун-К", Category.Truck, "https://upload.wikimedia.org/wikipedia/commons/9/9d/April_9th_rehearsal_in_Alabino_of_2014_Victory_Day_Parade_%28558-17%29.jpg", 2011, 2023, bc3);
         ModelDto mc3 = modelService.add(m3);
         // Роли
-        UserRoleDto ur1 = new UserRoleDto(null, Role.ADMIN);
+        UserRoleDto ur1 = new UserRoleDto(null, Role.USER);
         UserRoleDto urc1 = userRoleService.add(ur1);
         UserRoleDto ur2 = new UserRoleDto(null, Role.ADMIN);
         UserRoleDto urc2 = userRoleService.add(ur2);

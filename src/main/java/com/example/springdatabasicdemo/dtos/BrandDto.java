@@ -1,6 +1,7 @@
 package com.example.springdatabasicdemo.dtos;
 
 import com.example.springdatabasicdemo.models.Brand;
+import com.example.springdatabasicdemo.validate.UniqueBrandName;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 public class BrandDto {
     private UUID id;
+    @UniqueBrandName
     @NotNull(message = "Имя не может быть пустым")
     @Size(min = 2, max = 20, message = "Должно быть от 2 до 20 символов")
     private String name;

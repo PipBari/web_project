@@ -29,13 +29,13 @@ public class BrandController {
     }
 
     @GetMapping("/add")
-    public String addBrandForm(Model model) {
+    public String addBrand(Model model) {
         model.addAttribute("brand", new BrandDto());
         return "brands/add";
     }
 
-    @PostMapping("/create")
-    public String addBrand(@ModelAttribute("brand") @Valid BrandDto brandDto, BindingResult result, Model model) {
+    @PostMapping
+    public String addBrand(@ModelAttribute("brand") @Valid BrandDto brandDto, BindingResult result) {
         if (result.hasErrors()) {
             return "brands/add";
         }

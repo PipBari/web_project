@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface ModelRepository extends JpaRepository<Model, UUID> {
+    boolean existsByName(String name);
 }

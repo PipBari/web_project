@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Добавление нового бренда</title>
+  <!-- Ваши стили и скрипты -->
+</head>
+<body>
+<header class="container">
+  <!-- Заголовок и навигация, если нужны -->
+</header>
+<div class="container">
+  <h1>Добавление нового бренда</h1>
+  <form th:action="@{/brands/create}" th:object="${brand}" method="post">
+    <div>
+      <label for="name">Название:</label>
+      <input type="text" id="name" name="name" th:value="*{name}" required />
+    </div>
+    <div class="submit">
+      <button type="submit">Добавить бренд</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

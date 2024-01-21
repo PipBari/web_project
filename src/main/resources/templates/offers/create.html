@@ -43,7 +43,7 @@
 
         Двигатель:
         <select th:field="*{engine}" class="form-control">
-          <option value="">Choose...</option>
+          <option value="">Выбрать...</option>
           <option th:each="engine : ${T(com.example.springdatabasicdemo.models.enums.Engine).values()}"
                   th:value="${engine}"
                   th:text="${engine}"></option>
@@ -51,7 +51,7 @@
 
         Трансмиссия:
         <select th:field="*{transmission}" class="form-control">
-          <option value="">Choose...</option>
+          <option value="">Выбрать...</option>
           <option th:each="transmission : ${T(com.example.springdatabasicdemo.models.enums.Transmission).values()}"
                   th:value="${transmission}"
                   th:text="${transmission}"></option>
@@ -59,11 +59,11 @@
 
         Модель:
         <select th:field="*{model.id}" class="form-control">
-          <option value="">Choose...</option>
+          <option value="">Выбрать...</option>
           <option th:each="model : ${allModels}" th:value="${model.id}" th:text="${model.name}"></option>
         </select><br>
 
-        <input type="submit" value="Submit" class="btn btn-primary">
+        <input type="submit" value="Отправить" class="btn btn-primary">
       </form>
     </div>
   </sec:authorize>

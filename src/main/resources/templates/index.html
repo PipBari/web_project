@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Каталог объявлений по продаже машин</title>
   <style>
     body {
@@ -9,6 +11,8 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
     .top-right-controls {
       position: absolute;
@@ -37,6 +41,9 @@
       border-radius: 5px;
       margin: 10px;
     }
+    .admin-panel-button {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -59,7 +66,13 @@
   <a th:href="@{/brands/list}" class="btn btn-primary">Просмотр брендов</a>
   <a th:href="@{/models/list}" class="btn btn-primary">Просмотр моделей</a>
   <a th:href="@{/offers/list}" class="btn btn-primary">Просмотр объявлений</a>
-  <a th:href="@{/adminboard}" class="btn btn-primary">Админ панель</a>
 </div>
+
+<div class="admin-panel-button">
+  <div class="admin-panel-button" sec:authorize="hasAuthority('ADMIN')">
+    <a th:href="@{/adminboard}" class="btn btn-primary">Админ панель</a>
+  </div>
+</div>
+
 </body>
 </html>

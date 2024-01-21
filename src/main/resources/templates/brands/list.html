@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Список категорий</title>
@@ -31,12 +31,18 @@
         ul {
             list-style: none;
             padding: 0;
+            display: flex;
+            flex-wrap: wrap;
         }
         ul li {
             background: #fff;
-            margin-bottom: 10px;
+            margin-right: 10px;
             padding: 10px;
             font-size: 18px;
+            white-space: nowrap;
+        }
+        ul li:last-child {
+            margin-right: 0;
         }
         ul li a {
             margin-right: 10px;
