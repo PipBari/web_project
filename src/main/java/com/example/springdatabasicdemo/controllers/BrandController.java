@@ -35,7 +35,7 @@ public class BrandController {
     }
 
     @PostMapping("/add")
-    public String addBrand(@Valid @ModelAttribute("brand") BrandDto brandDto, BindingResult result, Model model) {
+    public String addBrand(@ModelAttribute("brand") @Valid BrandDto brandDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("brand", brandDto);
             return "brands/add";
@@ -54,7 +54,7 @@ public class BrandController {
     public String deleteBrand(@PathVariable UUID id) {
         BrandDto brandDto = new BrandDto();
         brandDto.setId(id);
-        brandService.delete(brandDto);
+        brandService.delete(id);
         return "redirect:/brands/list";
     }
 

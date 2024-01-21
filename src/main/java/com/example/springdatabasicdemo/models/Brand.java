@@ -10,7 +10,7 @@ import java.util.List;
 public class Brand extends  TimeBaseEntity{
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Model> models;
 
     public Brand(){}

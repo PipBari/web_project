@@ -19,3 +19,4 @@ public class UsernameValidator implements ConstraintValidator<UniqueUsername, St
         return !userRepository.existsByUsername(s);
     }
 }
+

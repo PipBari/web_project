@@ -19,7 +19,7 @@ public class Model extends TimeBaseEntity{
     private int startYear;
     @Column(name = "endYear")
     private int endYear;
-    @OneToMany(mappedBy = "model", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "model", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Offer> offers;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "brand_id")

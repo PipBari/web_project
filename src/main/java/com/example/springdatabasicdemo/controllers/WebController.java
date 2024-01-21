@@ -1,11 +1,10 @@
 package com.example.springdatabasicdemo.controllers;
 
+import com.example.springdatabasicdemo.dtos.BrandDto;
 import com.example.springdatabasicdemo.dtos.UserDto;
 import com.example.springdatabasicdemo.dtos.UserRoleDto;
-import com.example.springdatabasicdemo.services.ModelService;
-import com.example.springdatabasicdemo.services.OfferService;
-import com.example.springdatabasicdemo.services.UserRoleService;
-import com.example.springdatabasicdemo.services.UserService;
+import com.example.springdatabasicdemo.services.*;
+import com.example.springdatabasicdemo.services.impl.BrandServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,13 +26,15 @@ import java.util.UUID;
 public class WebController {
     private final UserRoleService userRoleService;
     private final UserService userService;
+    private final BrandService brandService;
     private final OfferService offerService;
     private final ModelService modelService;
 
     @Autowired
-    public WebController(UserRoleService userRoleService,UserService userService, OfferService offerService, ModelService modelService) {
+    public WebController(UserRoleService userRoleService,UserService userService, BrandService brandService ,OfferService offerService, ModelService modelService) {
         this.userRoleService = userRoleService;
         this.userService = userService;
+        this.brandService = brandService;
         this.offerService = offerService;
         this.modelService = modelService;
     }
@@ -94,10 +95,19 @@ public class WebController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/deleteModel/{id}")
-    public String deleteModel(@PathVariable UUID id) {
-        modelService.delete(id);
-        return "redirect:/adminboard/models";
+    @GetMapping("/adminboard/brands")
+    public String listBrands(Model model) {
+        List<BrandDto> brands = brandService.getAll();
+        model.addAttribute("brands", brands);
+        return "admins/brands";
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/deleteBrand/{id}")
+    public String deleteBrand(@PathVariable UUID id) {
+        brandService.delete(id);
+        return "redirect:/adminboard/brands";
+    }
+
 }
 

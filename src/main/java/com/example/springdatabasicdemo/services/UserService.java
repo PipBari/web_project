@@ -21,5 +21,7 @@ public interface UserService<ID>{
 
     void updateUserRole(UUID userId, UUID roleId);
 
+    UserDto updateProfile(String username, UserDto userDto);
+
     UserDto update(UUID id, UserDto userDto);
 }

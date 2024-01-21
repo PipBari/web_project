@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,12 +28,6 @@ public class UserController {
         this.offerService = offerService;
     }
 
-    @GetMapping("/list")
-    public String listUsers(Model model) {
-        model.addAttribute("users", userService.getAll());
-        return "users/list";
-    }
-
     @GetMapping("/add")
     public String addUserForm(Model model) {
         model.addAttribute("user", new UserDto());
@@ -40,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUser(@ModelAttribute UserDto userDto, BindingResult result) {
+    public String add(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
         if (result.hasErrors()) {
             return "users/add";
         }
@@ -64,19 +59,21 @@ public class UserController {
         return "users/view";
     }
 
-    @PostMapping("/add")
-    public String addUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result) {
-        if (result.hasErrors()) {
-            return "users/add";
-        }
-        userService.add(userDto);
-        return "redirect:/index";
+    @GetMapping("/profile/edit")
+    public String editProfileForm(Principal principal, Model model) throws Throwable {
+        UserDto userDto = (UserDto) userService.findByUsername(principal.getName())
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + principal.getName()));
+        model.addAttribute("user", userDto);
+        return "users/edit";
     }
 
-    @PostMapping("/{id}")
-    public String updateUser(@PathVariable UUID id, @ModelAttribute UserDto userDto) {
-        userService.update(id, userDto);
-        return "redirect:/users";
+    @PostMapping("/profile/update")
+    public String updateProfile(@ModelAttribute UserDto userDto, BindingResult result, Principal principal) {
+        if (result.hasErrors()) {
+            return "users/edit";
+        }
+        userService.updateProfile(principal.getName(), userDto);
+        return "redirect:/users/profile/" + principal.getName();
     }
 
     @GetMapping("/delete/{id}")
@@ -86,10 +83,11 @@ public class UserController {
     }
 
     @GetMapping("/profile/{username}")
-    public String userProfile(@PathVariable String username, Model model) throws Throwable {
+    public String userProfile(@PathVariable String username, Model model, Principal principal) throws Throwable {
         UserDto userDto = (UserDto) userService.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + username));
         model.addAttribute("user", userDto);
+        model.addAttribute("currentUsername", principal.getName());
         return "users/view";
     }
 

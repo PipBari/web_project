@@ -9,7 +9,9 @@ import com.example.springdatabasicdemo.repositories.OfferRepository;
 import com.example.springdatabasicdemo.repositories.UserRepository;
 import com.example.springdatabasicdemo.repositories.UserRoleRepository;
 import com.example.springdatabasicdemo.services.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,12 +25,14 @@ public class UserServiceImpl implements UserService<Integer>{
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final OfferRepository offerRepository;
+    private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, OfferRepository offerRepository, ModelMapper modelMappe){
+    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, OfferRepository offerRepository,PasswordEncoder passwordEncoder ,ModelMapper modelMappe){
         this.userRepository=userRepository;
         this.userRoleRepository=userRoleRepository;
         this.offerRepository=offerRepository;
+        this.passwordEncoder = passwordEncoder;
         this.modelMapper=modelMappe;
     }
     @Override
@@ -57,6 +61,7 @@ public class UserServiceImpl implements UserService<Integer>{
             user.setUserRole(userRole);
         } else {
         }
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDto.class);
     }
@@ -87,11 +92,23 @@ public class UserServiceImpl implements UserService<Integer>{
         userRepository.save(user);
     }
 
+    @Override
+    public UserDto updateProfile(String username, UserDto userDto) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
+        user.setModified(LocalDate.now());
+        userRepository.save(user);
+        return modelMapper.map(user, UserDto.class);
+    }
 
     @Override
     public UserDto update(UUID id, UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
-        user.setUsername(userDto.getUsername());
         user.setFirstname(userDto.getFirstname());
         user.setLastname(userDto.getLastname());
         if (userDto.getUserRoleDto() != null && userDto.getUserRoleDto().getId() != null) {

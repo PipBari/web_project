@@ -13,7 +13,7 @@ public interface BrandService<ID>{
 
     Optional<BrandDto> findBrand(UUID id);
 
-    BrandDto delete(BrandDto brandDto);
+    BrandDto delete(UUID id);
 
     BrandDto update(UUID id, BrandDto brandDto);
 }

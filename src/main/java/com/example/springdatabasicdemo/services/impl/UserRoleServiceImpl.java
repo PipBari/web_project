@@ -2,6 +2,7 @@ package com.example.springdatabasicdemo.services.impl;
 
 import com.example.springdatabasicdemo.dtos.UserRoleDto;
 import com.example.springdatabasicdemo.models.UserRole;
+import com.example.springdatabasicdemo.models.enums.Role;
 import com.example.springdatabasicdemo.repositories.UserRoleRepository;
 import com.example.springdatabasicdemo.services.UserRoleService;
 import org.modelmapper.ModelMapper;
@@ -37,6 +38,13 @@ public class UserRoleServiceImpl implements UserRoleService<Integer> {
         return userRoleRepository.findById(id)
                 .map(userRole -> modelMapper.map(userRole, UserRoleDto.class));
     }
+
+    @Override
+    public Optional<UserRoleDto> findUserRoleName(Role role) {
+        return userRoleRepository.findByRole(role)
+                .map(userRole -> modelMapper.map(userRole, UserRoleDto.class));
+    }
+
 
     @Override
     public UserRoleDto delete(UserRoleDto userRoleDto) {

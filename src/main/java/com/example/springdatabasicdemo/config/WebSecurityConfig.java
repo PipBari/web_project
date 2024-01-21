@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/offers/**", "/models/**", "/brands/**").authenticated()
                         .requestMatchers("/adminboard").access("hasAuthority('ADMIN')")
                         .requestMatchers("/users/add").permitAll()
+                        .requestMatchers("/users/create").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

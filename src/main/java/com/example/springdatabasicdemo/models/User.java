@@ -19,7 +19,7 @@ public class User extends TimeBaseEntity{
     private Boolean isActive;
     @Column(name = "imageUrl")
     private String imageUrl;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Offer> offers;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
