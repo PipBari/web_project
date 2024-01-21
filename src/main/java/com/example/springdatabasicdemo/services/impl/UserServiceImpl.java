@@ -62,10 +62,10 @@ public class UserServiceImpl implements UserService<Integer>{
     }
 
     @Override
-    public UserDto delete(UserDto userDto){
-        userRepository.deleteById(userDto.getId());
-        return userDto;
+    public void delete(UUID id) {
+        userRepository.findById(id).ifPresent(userRepository::delete);
     }
+
     @Override
     public UserDto deactivateAccount(UUID id) {
         User user = userRepository.findById(id).orElse(null);

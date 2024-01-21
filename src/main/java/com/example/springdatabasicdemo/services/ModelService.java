@@ -13,7 +13,7 @@ public interface ModelService<ID>{
 
     Optional<ModelDto> findModel(UUID id);
 
-    ModelDto delete(ModelDto modelDto);
+    void delete(UUID id);
 
     ModelDto update(UUID id, ModelDto modelDto);
 }

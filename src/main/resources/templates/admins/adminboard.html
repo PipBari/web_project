@@ -6,20 +6,16 @@
 </head>
 <body>
 <div sec:authorize="hasAuthority('ROLE_ADMIN')">
-    <h1>Административная панель</h1>
+    <h1>Админ панель</h1>
     <div>
-        <h2>Список объявлений</h2>
+        <h2>Выберите категорию</h2>
         <ul>
-            <li th:each="id : ${offerIds}">
-                <span th:text="${id}"></span>
-                <form th:action="@{/deleteOffer/{id}(id=${id})}" method="get">
-                    <input type="submit" value="Удалить" class="btn btn-danger"/>
-                </form>
-            </li>
+            <li><a href="/adminboard/offers">Объявления</a></li>
+            <li><a href="/adminboard/users">Пользователи</a></li>
+            <li><a href="/adminboard/models">Модели</a></li>
         </ul>
     </div>
 </div>
-
 <div sec:authorize="!hasAuthority('ROLE_ADMIN')">
     <p>У вас нет прав доступа к этой странице.</p>
 </div>

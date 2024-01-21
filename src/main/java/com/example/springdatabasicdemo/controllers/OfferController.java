@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -33,7 +30,6 @@ public class OfferController {
     private ModelService modelService;
     private ModelMapper modelMapper;
 
-    private static final Logger LOG = LogManager.getLogger(Controller.class);
     @Autowired
     public void SetOfferService(OfferService offerService, UserService userService, ModelService modelService, ModelMapper modelMapper) {
         this.offerService=offerService;
@@ -51,18 +47,39 @@ public class OfferController {
 
     @GetMapping("/list")
     public String listOffers(Principal principal, Model model) {
-        LOG.log(Level.INFO, "Show all offers " + (principal != null ? principal.getName() : "Anonymous"));
         List<OfferDto> offers = offerService.getAll();
         model.addAttribute("offers", offers);
-        model.addAttribute("isLoggedIn", principal != null);
+
         if (principal != null) {
-            model.addAttribute("username", principal.getName());
-            List<UUID> viewedOfferIds = offerService.getViewedOfferIdsByUser(principal.getName());
+            String username = principal.getName();
+            model.addAttribute("isLoggedIn", true);
+            model.addAttribute("username", username);
+
+            List<UUID> viewedOfferIds = offerService.getViewedOfferIdsByUser(username);
             model.addAttribute("viewedOffers", viewedOfferIds);
         } else {
+            model.addAttribute("isLoggedIn", false);
             model.addAttribute("viewedOffers", Collections.emptyList());
         }
         return "offers/list";
+    }
+
+    @GetMapping("/viewed")
+    public String listViewedOffers(Principal principal, Model model) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        List<String> viewedOfferIdStrings = offerService.getViewedOfferIdsByUser(username);
+        List<UUID> viewedOfferIds = viewedOfferIdStrings.stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+        List<Object> viewedOffers = viewedOfferIds.stream()
+                .map(offerId -> offerService.findOffer(offerId).orElse(null))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList()).reversed();
+        model.addAttribute("viewedOffers", viewedOffers);
+        return "offers/viewed";
     }
 
     @GetMapping("/create")

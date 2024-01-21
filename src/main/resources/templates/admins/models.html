@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление моделями</title>
+</head>
+<body>
+<h1>Список моделей</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Действия</th>
+    </tr>
+    <tr th:each="model : ${models}">
+        <td th:text="${model.id}"></td>
+        <td th:text="${model.name}"></td>
+        <td>
+            <form th:action="@{/adminboard/deleteModel/{id}(id=${model.id})}" method="post">
+                <input type="submit" value="Удалить"/>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

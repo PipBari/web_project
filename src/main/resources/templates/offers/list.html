@@ -68,8 +68,10 @@
 <div class="container mt-5">
   <div class="btn-align">
     <sec:authorize access="isAuthenticated()">
-      <a href="/models" class="btn btn-secondary">Список моделей</a>
+      <a href="/brands/list" class="btn btn-secondary">Список брендов</a>
+      <a href="/models/list" class="btn btn-secondary">Список моделей</a>
       <a href="/offers/create" class="btn btn-success">Создать новое объявление</a>
+      <a href="/offers/viewed" class="btn btn-secondary">Просмотренные объявления</a>
       <a href="/offers/myoffers" class="btn btn-primary">Мои Объявления</a>
     </sec:authorize>
   </div>

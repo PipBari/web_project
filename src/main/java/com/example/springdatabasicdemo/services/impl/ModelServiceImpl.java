@@ -1,6 +1,5 @@
 package com.example.springdatabasicdemo.services.impl;
 
-import com.example.springdatabasicdemo.dtos.BrandDto;
 import com.example.springdatabasicdemo.dtos.ModelDto;
 import com.example.springdatabasicdemo.models.Brand;
 import com.example.springdatabasicdemo.models.Model;
@@ -49,9 +48,8 @@ public class ModelServiceImpl implements ModelService<Integer> {
     }
 
     @Override
-    public ModelDto delete(ModelDto modelDto){
-        modelRepository.deleteById(modelDto.getId());
-        return modelDto;
+    public void delete(UUID id) {
+        modelRepository.findById(id).ifPresent(modelRepository::delete);
     }
 
     @Override

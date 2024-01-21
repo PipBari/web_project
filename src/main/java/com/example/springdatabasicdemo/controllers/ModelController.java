@@ -32,9 +32,9 @@ public class ModelController {
         this.brandService = brandService;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public String listModels(Principal principal, Model model) {
-        LOG.log(Level.INFO, "Show all offers " + principal.getName());
+        LOG.log(Level.INFO, "Show all models " + principal.getName());
         model.addAttribute("offersInfos", modelService.getAll());
         model.addAttribute("models", modelService.getAll());
         return "models/list";
@@ -48,13 +48,13 @@ public class ModelController {
         return "models/add";
     }
 
-    @PostMapping("/create")
+    @PostMapping("add")
     public String addModel(@ModelAttribute("model") @Valid ModelDto modelDto, BindingResult result) {
         if (result.hasErrors()) {
             return "models/add";
         }
         modelService.add(modelDto);
-        return "redirect:/models";
+        return "redirect:/models/list";
     }
 
     @GetMapping("/{id}")
@@ -73,7 +73,6 @@ public class ModelController {
         return "models/edit";
     }
 
-
     @PostMapping("/{id}/update")
     public String updateModel(@PathVariable UUID id, @ModelAttribute ModelDto modelDto) {
         modelService.update(id, modelDto);
@@ -84,7 +83,7 @@ public class ModelController {
     public String deleteModel(@PathVariable UUID id) {
         ModelDto modelDto = new ModelDto();
         modelDto.setId(id);
-        modelService.delete(modelDto);
+        modelService.delete(id);
         return "redirect:/models";
     }
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление пользователями</title>
+</head>
+<body>
+<h1>Список пользователей</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Имя пользователя</th>
+    <th>Статус</th>
+    <th>Роль</th>
+    <th>Действия</th>
+  </tr>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.id}"></td>
+    <td th:text="${user.username}"></td>
+    <td>
+      <form th:action="@{/adminboard/updateUserStatus/{id}(id=${user.id})}" method="post">
+        <select name="isActive">
+          <option th:selected="${user.isActive}" value="true">Активен</option>
+          <option th:selected="${!user.isActive}" value="false">Неактивен</option>
+        </select>
+        <input type="submit" value="Изменить статус"/>
+      </form>
+    </td>
+    <td>
+      <form th:action="@{/adminboard/updateUserRole/{id}(id=${user.id})}" method="post">
+        <select name="role">
+          <option th:each="role : ${roles}"
+                  th:value="${role.id}"
+                  th:text="${role.role}"
+                  th:selected="${user.userRoleDto != null and role.id.toString() == user.userRoleDto.id.toString()}"></option>
+        </select>
+        <input type="submit" value="Изменить роль"/>
+      </form>
+    </td>
+    <td>
+      <form th:action="@{/adminboard/deleteUser/{id}(id=${user.id})}" method="post">
+        <input type="submit" value="Деактивировать"/>
+      </form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

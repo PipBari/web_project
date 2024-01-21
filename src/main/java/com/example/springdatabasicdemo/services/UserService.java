@@ -15,7 +15,7 @@ public interface UserService<ID>{
 
     UserDto add(UserDto userDto);
 
-    UserDto delete(UserDto userDto);
+    void delete(UUID id);
 
     UserDto deactivateAccount(UUID id);
 
