@@ -1,38 +1,93 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
-  <title>Список моделей</title>
+  <title>Models List</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .model-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px;
+      display: inline-block;
+      width: 200px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .model-image {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .btn-align {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn {
+      white-space: nowrap;
+      margin: 0 5px;
+    }
+
+    .btn-align > * {
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .top-right-controls {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container mt-5">
-  <h1>Список моделей</h1>
-  <a href="/offers/list" class="btn btn-secondary mb-3">Перейти к списку объявлений</a>
+<div class="top-right-controls">
+  <div th:if="${!#authorization.expression('isAuthenticated()')}">
+    <a href="/login" class="btn btn-secondary mb-3">Вход</a>
+    <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
+  </div>
+  <div sec:authorize="isAuthenticated()" class="top-right-controls">
+    <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="btn btn-secondary mb-3">
+      <span th:text="${#authentication.name}">Профиль</span>
+    </a>
+    <form th:action="@{/logout}" method="post">
+      <input type="submit" value="Выйти" class="btn btn-secondary mb-3"/>
+    </form>
+  </div>
+</div>
 
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th>Название модели</th>
-      <th>Действия</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="model : ${models}">
-      <td th:text="${model.name}">Model Name</td>
-      <td>
-        <a href="/models/view" class="btn btn-info btn-sm">Посмотреть</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <a href="/models/add" class="btn btn-success">Добавить новую модель</a>
+<div class="container mt-5">
+  <h1 class="text-center">Список моделей автомобилей</h1>
+  <div class="btn-align">
+    <a href="/brands/list" class="btn btn-secondary">Список брендов</a>
+    <a href="/models/add" class="btn btn-success">Добавить новую модель</a>
+    <a href="/offers/list" class="btn btn-secondary">Список объявлений</a>
+    <a href="/offers/myoffers" class="btn btn-primary">Мои Объявления</a>
+  </div>
+
+  <div class="row">
+    <div th:each="model : ${models}" class="model-card">
+      <img th:if="${model.imageUrl}" th:src="${model.imageUrl}" alt="Model Image" class="model-image">
+      <div th:text="${model.name}">Model Name</div>
+      <div th:text="${model.brand != null ? model.brand.name : 'N/A'}">Brand</div>
+      <div>
+        <a th:href="@{'/models/view/' + ${model.id}}" class="btn btn-info">Просмотреть</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 </body>
 </html>

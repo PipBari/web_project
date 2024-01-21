@@ -1,111 +1,59 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Добавление модели</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-    }
-    .container {
-      width: 80%;
-      margin: auto;
-      overflow: hidden;
-    }
-    header {
-      background: #333;
-      color: #fff;
-      padding-top: 30px;
-      min-height: 70px;
-      border-bottom: #bbb 1px solid;
-    }
-    header a {
-      color: #fff;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: 16px;
-    }
-    form {
-      background: #fff;
-      padding: 20px;
-      margin-top: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    input[type="text"],
-    input[type="number"],
-    input[type="submit"],
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .error {
-      color: red;
-    }
-  </style>
+  <title>Добавление новой модели</title>
+  <!-- Добавьте сюда свои стили и скрипты -->
 </head>
 <body>
-<div class="container">
-  <form th:action="@{/models/create}" th:object="${model}" method="post">
-    <div>
-      <label for="name">Name:</label>
-      <input type="text" id="name" th:field="*{name}" />
-      <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-    </div>
+<h1>Добавление новой модели</h1>
 
-    <div>
-      <label for="category">Category:</label>
-      <select id="category" th:field="*{category}">
-        <option value="">Select Category</option>
-        <option th:each="category : ${categories}"
-                th:value="${category.name()}"
-                th:text="${category.name()}">
-        </option>
-      </select>
-      <div class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
-    </div>
+<form th:action="@{/models/add}" th:object="${model}" method="post">
+  <div>
+    <label for="name">Название:</label>
+    <input type="text" id="name" th:field="*{name}" required/>
+  </div>
 
-    <div>
-      <label for="brand">Brand:</label>
-      <select id="brand" th:field="*{brand.id}">
-        <option value="">Select Brand</option>
-        <option th:each="brand : ${brands}"
-                th:value="${brand.id}"
-                th:text="${brand.name}">
-        </option>
-      </select>
-      <div class="error" th:if="${#fields.hasErrors('brand.id')}" th:errors="*{brand.id}"></div>
-    </div>
+  <div>
+    <label for="category">Категория:</label>
+    <select id="category" th:field="*{category}">
+      <option th:each="cat : ${categories}"
+              th:value="${cat}"
+              th:text="${cat}">Категория</option>
+    </select>
+  </div>
 
-    <div>
-      <label for="imageUrl">Image URL:</label>
-      <input type="text" id="imageUrl" th:field="*{imageUrl}" />
-      <div class="error" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
-    </div>
+  <div>
+    <label for="imageUrl">URL изображения:</label>
+    <input type="text" id="imageUrl" th:field="*{imageUrl}"/>
+  </div>
 
-    <div>
-      <label for="startYear">Start Year:</label>
-      <input type="number" id="startYear" th:field="*{startYear}" />
-      <div class="error" th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}"></div>
-    </div>
+  <div>
+    <label for="startYear">Начальный год:</label>
+    <input type="number" id="startYear" th:field="*{startYear}" required/>
+  </div>
 
-    <div>
-      <label for="endYear">End Year:</label>
-      <input type="number" id="endYear" th:field="*{endYear}" />
-      <div class="error" th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}"></div>
-    </div>
+  <div>
+    <label for="endYear">Конечный год:</label>
+    <input type="number" id="endYear" th:field="*{endYear}" required/>
+  </div>
 
-    <div>
-      <button type="submit">Submit</button>
-    </div>
-  </form>
-  <a href="/models">Отмена</a>
+  <div>
+    <label for="brand">Бренд:</label>
+    <select id="brand" th:field="*{brand.id}">
+      <option th:each="brand : ${brands}"
+              th:value="${brand.id}"
+              th:text="${brand.name}">Бренд</option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit">Добавить модель</button>
+  </div>
+</form>
+
+<div>
+  <a th:href="@{/models/list}">Вернуться к списку моделей</a>
 </div>
 </body>
 </html>

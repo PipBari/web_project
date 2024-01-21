@@ -57,7 +57,7 @@ public class ModelController {
         return "redirect:/models/list";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/view/{id}")
     public String viewModel(@PathVariable UUID id, Model model) {
         modelService.findModel(id).ifPresent(modelDto -> model.addAttribute("model", modelDto));
         return "models/view";

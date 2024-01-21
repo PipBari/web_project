@@ -90,7 +90,6 @@
       <div th:text="${offer.model.name}">Model Name</div>
       <div>
         <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Просмотреть</a>
-        <span th:if="${#lists.contains(viewedOffers, offer.id)}" class="viewed-text">Объявление просмотрено</span>
       </div>
     </div>
   </div>
