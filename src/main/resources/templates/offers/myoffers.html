@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
   <title>Мои Объявления</title>
@@ -19,11 +19,33 @@
       max-width: 100%;
       height: auto;
     }
+
+    .top-right-controls {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
   </style>
 </head>
 <body>
 
+<div class="top-right-controls">
+  <div th:if="${!#authorization.expression('isAuthenticated()')}">
+    <a href="/login" class="btn btn-secondary mb-3">Вход</a>
+    <a href="/users/add" class="btn btn-secondary mb-3">Регистрация</a>
+  </div>
+  <div sec:authorize="isAuthenticated()" class="top-right-controls">
+    <a th:href="@{/users/profile/{username}(username=${#authentication.name})}" class="btn btn-secondary mb-3">
+      <span th:text="${#authentication.name}">Профиль</span>
+    </a>
+    <form th:action="@{/logout}" method="post">
+      <input type="submit" value="Выйти" class="btn btn-secondary mb-3"/>
+    </form>
+  </div>
+</div>
+
 <div class="container mt-5">
+  <a href="/offers/list" class="btn btn-secondary">Список объявлений</a>
   <h1 class="mb-4">Мои Объявления</h1>
 
   <div class="row">
@@ -37,6 +59,7 @@
         </div>
         <a th:href="@{/offers/{id}(id=${offer.id})}" class="btn btn-info">Подробнее</a>
         <a th:href="@{/offers/delete/{id}(id=${offer.id})}" class="btn btn-danger mt-2">Удалить</a>
+        <a th:href="@{/offers/edit/{id}(id=${offer.id})}" class="btn btn-primary">Редактировать</a>
       </div>
     </div>
   </div>

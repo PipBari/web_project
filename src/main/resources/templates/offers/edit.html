@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Edit Offer</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-
-<div class="container mt-5">
-  <h1>Edit Offer</h1>
-
-  <form th:action="@{/offers/{id}/update(id=${offer.id})}" th:object="${offer}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    Description: <input type="text" th:field="*{description}" /><br>
-    Price: <input type="number" th:field="*{price}" /><br>
-    Image: <input type="text" th:field="*{imageUrl}"/><br>
-    Model:
-    <select th:field="*{model.id}">
-      <option value="">Choose...</option>
-      <option th:each="model : ${allModels}"
-              th:value="${model.id}"
-              th:selected="${model.id.equals(offer.model.id)}"
-              th:text="${model.name}">
-      </option>
-    </select><br>
-    <input type="submit" value="Update">
+<div class="container">
+  <h2>Edit Offer</h2>
+  <form th:action="@{/offers/edit/{id}(id=${offer.id})}" th:object="${offer}" method="post">
+    <div>
+      <label for="description">Description</label>
+      <input type="text" id="description" th:field="*{description}" />
+    </div>
+    <div>
+      <label for="price">Price</label>
+      <input type="number" id="price" th:field="*{price}" />
+    </div>
+    <div>
+      <label for="imageUrl">Image URL</label>
+      <input type="text" id="imageUrl" th:field="*{imageUrl}" />
+    </div>
+    <button type="submit">Update Offer</button>
   </form>
+  <a href="/adminboard">Назад к админ панели</a>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 </body>
 </html>

@@ -62,6 +62,7 @@ public class ModelServiceImpl implements ModelService<Integer> {
         model.setimageUrl(modelDto.getImageUrl());
         model.setstartYear(modelDto.getStartYear());
         model.setendYear(modelDto.getEndYear());
+
         if (modelDto.getBrand() != null && modelDto.getBrand().getId() != null) {
             Brand brand = brandRepository.findById(modelDto.getBrand().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Brand not found with id: " + modelDto.getBrand().getId()));
@@ -71,4 +72,5 @@ public class ModelServiceImpl implements ModelService<Integer> {
         Model updatedModel = modelRepository.save(model);
         return modelMapper.map(updatedModel, ModelDto.class);
     }
+
 }

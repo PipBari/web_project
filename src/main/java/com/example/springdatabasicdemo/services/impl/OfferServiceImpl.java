@@ -63,8 +63,9 @@ public class OfferServiceImpl implements OfferService<Integer>{
         }
         Offer offerToUpdate = offerRepository.findById(offerDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid offer Id:" + offerDto.getId()));
-
-        modelMapper.map(offerDto, offerToUpdate);
+        offerToUpdate.setDescription(offerDto.getDescription());
+        offerToUpdate.setPrice(offerDto.getPrice()); // Добавьте обновление цены
+        offerToUpdate.setimageUrl(offerDto.getImageUrl()); // Добавьте обновление URL изображения
         if (offerDto.getModel() != null && offerDto.getModel().getId() != null) {
             Model model = modelRepository.findById(offerDto.getModel().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid model Id:" + offerDto.getModel().getId()));
@@ -75,6 +76,7 @@ public class OfferServiceImpl implements OfferService<Integer>{
                     .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + offerDto.getUser().getId()));
             offerToUpdate.setUser(user);
         }
+
         offerToUpdate.setModified(LocalDate.now());
         Offer updatedOffer = offerRepository.save(offerToUpdate);
         return modelMapper.map(updatedOffer, OfferDto.class);

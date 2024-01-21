@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Управление моделями</title>
@@ -11,10 +11,17 @@
         <tr>
             <th>ID</th>
             <th>Название</th>
+            <th>Действия</th>
         </tr>
         <tr th:each="model : ${models}">
             <td th:text="${model.id}"></td>
             <td th:text="${model.name}"></td>
+            <td>
+                <form th:action="@{/deleteModel/{id}(id=${model.id})}" method="post">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
         </tr>
     </table>
     <a href="/adminboard">Назад к админ панели</a>

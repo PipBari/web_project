@@ -24,7 +24,6 @@ public class ModelController {
 
     private ModelService modelService;
     private BrandService brandService;
-    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Autowired
     public void SetModelController(ModelService modelService, BrandService brandService) {
@@ -34,7 +33,6 @@ public class ModelController {
 
     @GetMapping("/list")
     public String listModels(Principal principal, Model model) {
-        LOG.log(Level.INFO, "Show all models " + principal.getName());
         model.addAttribute("offersInfos", modelService.getAll());
         model.addAttribute("models", modelService.getAll());
         return "models/list";

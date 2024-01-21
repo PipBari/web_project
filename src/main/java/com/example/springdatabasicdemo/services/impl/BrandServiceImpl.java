@@ -50,10 +50,10 @@ public class BrandServiceImpl implements BrandService<Integer> {
     public BrandDto update(UUID id, BrandDto brandDto) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Brand not found with id: " + id));
+        brandDto.setId(null);
         modelMapper.map(brandDto, brand);
         brand.setModified(LocalDate.now());
         Brand updatedBrand = brandRepository.save(brand);
         return modelMapper.map(updatedBrand, BrandDto.class);
     }
-
 }

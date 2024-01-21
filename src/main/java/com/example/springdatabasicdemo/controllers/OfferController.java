@@ -89,13 +89,20 @@ public class OfferController {
         return "offers/create";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable UUID id, Model model) throws Throwable {
-        OfferDto offer = (OfferDto) offerService.findOffer(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid offer Id:" + id));
-        model.addAttribute("offer", offer);
-        model.addAttribute("allModels", populateModels());
+        OfferDto offerDto = (OfferDto) offerService.findOffer(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Offer ID: " + id));
+        model.addAttribute("offer", offerDto);
+        model.addAttribute("allModels", populateModels()); // if needed
         return "offers/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editForm(@PathVariable UUID id, @ModelAttribute("offer") OfferDto offerDto) {
+        offerDto.setId(id);
+        offerService.update(offerDto);
+        return "redirect:/offers/myoffers";
     }
 
     @GetMapping("/{id}")
@@ -111,12 +118,6 @@ public class OfferController {
             offerService.markOfferAsViewed(id, principal.getName());
         }
         return "offers/view";
-    }
-
-    @PostMapping("/{id}/update")
-    public String updateOffer(@PathVariable UUID id, @ModelAttribute("offer") OfferDto offerDto) {
-        offerService.update(offerDto);
-        return "redirect:/offers/list";
     }
 
     @PostMapping("/create")

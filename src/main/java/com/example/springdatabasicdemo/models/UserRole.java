@@ -10,7 +10,7 @@ import java.util.List;
 public class UserRole extends BaseEntity{
     @Column(name = "name")
     private Role role;
-    @OneToMany(mappedBy = "userRole", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "userRole", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<User> users;
 
     public UserRole(){}

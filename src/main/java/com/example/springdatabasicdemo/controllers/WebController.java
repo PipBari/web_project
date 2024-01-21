@@ -70,16 +70,6 @@ public class WebController {
         return "admins/users";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/adminboard/users")
-    public String updateUser(@RequestParam UUID id, @RequestParam(required = false) UUID roleId, RedirectAttributes redirectAttributes) throws Throwable {
-        UserDto userDto = (UserDto) userService.findUser(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        userService.update(id, userDto);
-        redirectAttributes.addFlashAttribute("successMessage", "User updated successfully");
-        return "redirect:/adminboard/users";
-    }
-
     @PostMapping("/adminboard/updateUserRole")
     public String updateUserRole(@RequestParam UUID userId, @RequestParam UUID roleId, RedirectAttributes redirectAttributes) {
         userService.updateUserRole(userId, roleId);
@@ -92,6 +82,18 @@ public class WebController {
     public String listModels(Model model) {
         model.addAttribute("models", modelService.getAll());
         return "admins/models";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/deleteModel/{id}")
+    public String deleteModel(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+        try {
+            modelService.delete(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Модель успешно удалена");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ошибка при удалении модели");
+        }
+        return "redirect:/adminboard/models";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
