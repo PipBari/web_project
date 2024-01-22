@@ -10,7 +10,7 @@ import java.util.UUID;
 public class ModelDto {
     private UUID id;
     @UniqueModelName
-    @NotNull(message = "Имя не может быть пустым")
+    @NotNull(message = "Название не может быть пустым")
     @Size(min = 2, max = 20, message = "Должно быть от 2 до 20 символов")
     private String name;
     private Category category;

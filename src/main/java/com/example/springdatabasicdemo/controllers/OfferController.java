@@ -94,7 +94,7 @@ public class OfferController {
         OfferDto offerDto = (OfferDto) offerService.findOffer(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Offer ID: " + id));
         model.addAttribute("offer", offerDto);
-        model.addAttribute("allModels", populateModels()); // if needed
+        model.addAttribute("allModels", populateModels());
         return "offers/edit";
     }
 

@@ -19,16 +19,13 @@ import java.util.UUID;
 public class RedisConfig {
     @Value("${redis.host}")
     private String redisHost;
-
     @Value("${redis.port}")
     private int redisPort;
-
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(redisHost, redisPort);
         return new LettuceConnectionFactory(configuration);
     }
-
     @Bean
     public RedisTemplate<String, UUID> uuidRedisTemplate() {
         RedisTemplate<String, UUID> template = new RedisTemplate<>();
@@ -37,20 +34,18 @@ public class RedisConfig {
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return template;
     }
-
     @Bean
     public RedisCacheManager cacheManager() {
-        RedisCacheConfiguration cacheConfig = myDefaultCacheConfig(Duration.ofMinutes(10)).disableCachingNullValues();
+        RedisCacheConfiguration cacheConfig = CacheConfig(Duration.ofMinutes(10)).disableCachingNullValues();
         return RedisCacheManager.builder(redisConnectionFactory())
                 .cacheDefaults(cacheConfig)
-                .withCacheConfiguration("brands", myDefaultCacheConfig(Duration.ofMinutes(10)))
-                .withCacheConfiguration("models", myDefaultCacheConfig(Duration.ofMinutes(10)))
-                .withCacheConfiguration("offers", myDefaultCacheConfig(Duration.ofMinutes(10)))
-                .withCacheConfiguration("users", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("brands", CacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("models", CacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("offers", CacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("users", CacheConfig(Duration.ofMinutes(10)))
                 .build();
     }
-
-    private RedisCacheConfiguration myDefaultCacheConfig(Duration duration) {
+    private RedisCacheConfiguration CacheConfig(Duration duration) {
         return RedisCacheConfiguration
                 .defaultCacheConfig()
                 .entryTtl(duration)

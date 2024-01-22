@@ -64,8 +64,8 @@ public class OfferServiceImpl implements OfferService<Integer>{
         Offer offerToUpdate = offerRepository.findById(offerDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid offer Id:" + offerDto.getId()));
         offerToUpdate.setDescription(offerDto.getDescription());
-        offerToUpdate.setPrice(offerDto.getPrice()); // Добавьте обновление цены
-        offerToUpdate.setimageUrl(offerDto.getImageUrl()); // Добавьте обновление URL изображения
+        offerToUpdate.setPrice(offerDto.getPrice());
+        offerToUpdate.setimageUrl(offerDto.getImageUrl());
         if (offerDto.getModel() != null && offerDto.getModel().getId() != null) {
             Model model = modelRepository.findById(offerDto.getModel().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid model Id:" + offerDto.getModel().getId()));

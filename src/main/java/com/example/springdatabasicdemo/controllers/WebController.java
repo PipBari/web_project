@@ -27,15 +27,13 @@ public class WebController {
     private final UserRoleService userRoleService;
     private final UserService userService;
     private final BrandService brandService;
-    private final OfferService offerService;
     private final ModelService modelService;
 
     @Autowired
-    public WebController(UserRoleService userRoleService,UserService userService, BrandService brandService ,OfferService offerService, ModelService modelService) {
+    public WebController(UserRoleService userRoleService,UserService userService, BrandService brandService, ModelService modelService) {
         this.userRoleService = userRoleService;
         this.userService = userService;
         this.brandService = brandService;
-        this.offerService = offerService;
         this.modelService = modelService;
     }
 
@@ -52,8 +50,6 @@ public class WebController {
     public String adminBoard(@AuthenticationPrincipal UserDetails userDetails, ModelMap model) {
         if (userDetails != null && userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
             model.addAttribute("username", userDetails.getUsername());
-            List<UUID> offerIds = offerService.getAllOfferIds();
-            model.addAttribute("offerIds", offerIds);
             return "admins/adminboard";
         } else {
             return "redirect:/index";
@@ -110,6 +106,5 @@ public class WebController {
         brandService.delete(id);
         return "redirect:/adminboard/brands";
     }
-
 }
 

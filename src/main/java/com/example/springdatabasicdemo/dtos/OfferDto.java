@@ -59,20 +59,4 @@ public class OfferDto {
     public void setModel(ModelDto model){this.model=model;}
     public UserDto getUser(){return user;}
     public void setUser(UserDto user){this.user=user;}
-    @Override
-    public String toString() {
-        return "OfferDto{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", engine=" + engine +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", mileage=" + mileage +
-                ", price=" + price +
-                ", transmission=" + transmission +
-                ", year=" + year +
-                ", modified=" + modified +
-                ", model=" + model +
-                ", user=" + user +
-                '}';
-    }
 }

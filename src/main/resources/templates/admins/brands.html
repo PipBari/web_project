@@ -6,19 +6,19 @@
 </head>
 <body>
 <div>
-  <h1>Brands</h1>
+  <h1>Марки автомобилей</h1>
   <table>
     <tr>
       <th>ID</th>
-      <th>Name</th>
-      <th>Actions</th>
+      <th>Название</th>
+      <th>Действие</th>
     </tr>
     <tr th:each="brand : ${brands}">
       <td th:text="${brand.id}">Brand ID</td>
       <td th:text="${brand.name}">Brand Name</td>
       <td>
         <form th:action="@{/deleteBrand/{id}(id=${brand.id})}" method="post">
-          <input type="submit" value="Delete"/>
+          <input type="submit" value="Удалить"/>
         </form>
       </td>
     </tr>

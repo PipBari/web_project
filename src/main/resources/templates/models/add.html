@@ -51,7 +51,6 @@
       <input type="number" id="startYear" th:field="*{startYear}" class="form-control" required/>
       <span th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}" class="validation-error"></span>
     </div>
-
     <div class="form-group">
       <label for="endYear">Конечный год:</label>
       <input type="number" id="endYear" th:field="*{endYear}" class="form-control" required/>
@@ -66,20 +65,16 @@
                 th:text="${brand.name}">Бренд</option>
       </select>
     </div>
-
     <div class="form-group">
       <button type="submit" class="btn btn-primary">Добавить модель</button>
     </div>
   </form>
-
   <div>
     <a th:href="@{/models/list}" class="btn btn-secondary">Вернуться к списку моделей</a>
   </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 </body>
 </html>

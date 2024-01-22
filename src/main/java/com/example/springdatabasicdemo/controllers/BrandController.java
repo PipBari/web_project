@@ -57,21 +57,5 @@ public class BrandController {
         brandService.delete(id);
         return "redirect:/brands/list";
     }
-
-    @GetMapping("/{id}/edit")
-    public String editBrandForm(@PathVariable UUID id, Model model) throws Throwable {
-        BrandDto brandDto = (BrandDto) brandService.findBrand(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid brand Id:" + id));
-        model.addAttribute("brand", brandDto);
-        return "brands/edit";
-    }
-    @PostMapping("/{id}/update")
-    public String updateBrand(@PathVariable UUID id, @Valid @ModelAttribute BrandDto brandDto, BindingResult result) {
-        if (result.hasErrors()) {
-            return "brands/edit";
-        }
-        brandService.update(id, brandDto);
-        return "redirect:/brands";
-    }
 }
 

@@ -70,18 +70,4 @@ public class ModelController {
         model.addAttribute("brands", brandService.getAll());
         return "models/edit";
     }
-
-    @PostMapping("/{id}/update")
-    public String updateModel(@PathVariable UUID id, @ModelAttribute ModelDto modelDto) {
-        modelService.update(id, modelDto);
-        return "redirect:/models";
-    }
-
-    @PostMapping("/{id}/delete")
-    public String deleteModel(@PathVariable UUID id) {
-        ModelDto modelDto = new ModelDto();
-        modelDto.setId(id);
-        modelService.delete(id);
-        return "redirect:/models";
-    }
 }
